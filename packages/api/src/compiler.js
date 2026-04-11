@@ -7,36 +7,99 @@ import {
 } from '@graffiticode/basis';
 
 export class Checker extends BasisChecker {
-  THEME(node, options, resume) {
-    this.visit(node.elts[0], options, async (e0, v0) => {
-      this.visit(node.elts[1], options, async (e1, v1) => {
-        const node0 = this.nodePool[node.elts[0]]
-        console.log(
-          "THEME()",
-          "node0=" + JSON.stringify(node0, null, 2),
-          "v0=" + JSON.stringify(v0, null, 2),
-        );
-        if (v0.tag === "TAG" && v0.elts[0] === "DARK" || v0.elts[0] === "LIGHT") {
-          const err = [];
-          const val = node;
-          resume(err, val);
-        } else {
-          const err = [{
-            message: `Expecting a tag DARK or tag LIGHT. Got ${v0.tag && "tag " + v0.elts[0] || v0}.`,
-            ...node0.coord,
-          }];
-          const val = node;
-          resume(err, val);
-        }
+  ELLIPSE(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
       });
     });
   }
 
-  HELLO(node, options, resume) {
-    this.visit(node.elts[0], options, async (e0, v0) => {
-      const err = [];
-      const val = node;
-      resume(err, val);
+  X(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
+    });
+  }
+
+  Y(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
+    });
+  }
+
+  WIDTH(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
+    });
+  }
+
+  HEIGHT(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
+    });
+  }
+
+  FILL(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
+    });
+  }
+
+  STROKE(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
+    });
+  }
+
+  STROKE_WIDTH(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
+    });
+  }
+
+  OPACITY(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
+    });
+  }
+
+  LABEL(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
+    });
+  }
+
+  COLOR(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
+    });
+  }
+
+  FIGJAM(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], node);
+      });
     });
   }
 }
@@ -44,85 +107,129 @@ export class Checker extends BasisChecker {
 export class Transformer extends BasisTransformer {
   PRINT(node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
-      const err = e0;
-      const val = {
-        print: v0,
-      };
-      resume(err, val);
-    })
-  }
-  HELLO(node, options, resume) {
-    this.visit(node.elts[0], options, async (e0, v0) => {
-      const data = options?.data || {};
-      const err = [];
-      const val = {
-        ...data,
-        hello: data.hello !== undefined ? data.hello : v0,
-      };
-      resume(err, val);
+      resume(e0, { print: v0 });
     });
   }
 
-  IMAGE(node, options, resume) {
-    this.visit(node.elts[0], options, async (e0, v0) => {
-      const data = options?.data || {};
-      const err = [];
-      const val = {
-        image: v0,
-        ...data,
-      };
-      resume(err, val);
+  ELLIPSE(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, name: v0 });
+      });
     });
   }
 
-  THEME(node, options, resume) {
-    this.visit(node.elts[0], options, async (e0, v0) => {
-      this.visit(node.elts[1], options, async (e1, v1) => {
-        const data = options?.data || {};
-        const err = [];
-        const val = {
-          theme: v0?.tag.toLowerCase(),
-          _: v1,
-          ...data,
-        };
-        resume(err, val);
+  X(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, x: v0 });
+      });
+    });
+  }
+
+  Y(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, y: v0 });
+      });
+    });
+  }
+
+  WIDTH(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, width: v0 });
+      });
+    });
+  }
+
+  HEIGHT(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, height: v0 });
+      });
+    });
+  }
+
+  FILL(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, fill: v0 });
+      });
+    });
+  }
+
+  STROKE(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, stroke: v0 });
+      });
+    });
+  }
+
+  STROKE_WIDTH(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, strokeWidth: v0 });
+      });
+    });
+  }
+
+  OPACITY(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, opacity: v0 });
+      });
+    });
+  }
+
+  LABEL(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, label: v0 });
+      });
+    });
+  }
+
+  COLOR(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, color: v0 });
+      });
+    });
+  }
+
+  FIGJAM(node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, figjamFileKey: v0 });
       });
     });
   }
 
   PROG(node, options, resume) {
-    this.visit(node.elts[0], options, async (e0, v0) => {
+    this.visit(node.elts[0], options, (e0, v0) => {
       const data = options?.data || {};
-      const err = e0;
-      const val = v0.pop();
-      console.log(
-        "PROG()",
-        "val=" + JSON.stringify(val, null, 2),
-      );
-      const hasUnderscore = typeof val === 'object' && val !== null && !Array.isArray(val) && '_' in val;
-      resume(err, {
-        ...(hasUnderscore ? val : { _: val }),
+      const items = v0;
+      const ellipses = [];
+      let figjamFileKey;
+      for (const item of items) {
+        if (typeof item === 'object' && item !== null) {
+          if (item.figjamFileKey) {
+            figjamFileKey = item.figjamFileKey;
+          }
+          if (item.name !== undefined) {
+            ellipses.push(item);
+          }
+        }
+      }
+      resume(e0, {
+        ellipses,
+        ...(figjamFileKey && { figjamFileKey }),
         ...data,
       });
     });
   }
-
-  // CATCH_ALL(node, options, resume) {
-  //   console.log(
-  //     "L0172/CATCH_ALL()",
-  //     "nodePool=" + JSON.stringify(this.nodePool, null, 2),
-  //     "node=" + JSON.stringify(node, null, 2),
-  //   );
-  //   this.visit(node.elts[0], options, async (e0, v0) => {
-  //     const data = options?.data || {};
-  //     const err = e0;
-  //     const val = v0;
-  //     resume(err, {
-  //       ...val,
-  //       ...data,
-  //     });
-  //   });
-  // }
 }
 
 export const compiler = new BasisCompiler({
