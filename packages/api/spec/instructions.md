@@ -40,7 +40,10 @@ Attach a field to the wrapped record.
 | Function | Type |
 | :------- | :--- |
 | `x`, `y`, `width`, `height`, `stroke-width`, `opacity` | `<number record: record>` |
-| `fill`, `stroke`, `label`, `color` | `<string record: record>` |
+| `fill`, `stroke`, `label`, `color`, `from`, `to` | `<string record: record>` |
+
+`opacity` is on a 0–100 scale: `0` fully transparent, `100` fully opaque
+(e.g. `opacity 50` is half-transparent).
 
 ## Examples
 

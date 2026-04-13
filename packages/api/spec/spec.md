@@ -55,7 +55,7 @@ semantics and base library can be found here:
 | `fill` | `<string record: record>` | Fill color (hex string) |
 | `stroke` | `<string record: record>` | Stroke color (hex string) |
 | `stroke-width` | `<number record: record>` | Stroke width in board units |
-| `opacity` | `<number record: record>` | Opacity in `[0, 100]` |
+| `opacity` | `<number record: record>` | Opacity on a 0–100 scale (0 = transparent, 100 = opaque) |
 | `label` | `<string record: record>` | Label text (e.g. on a connector) |
 | `color` | `<string record: record>` | Generic text/foreground color (hex) |
 | `from` | `<string\|list record: record>` | Source node(s) for a connector |
