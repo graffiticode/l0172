@@ -2,26 +2,29 @@
 # L0172 Dialect Extensions
 
 L0172 generates FigJam board content. Programs describe a board → pages →
-nodes hierarchy using the functions below.
+nodes hierarchy using the functions below. Types are written in
+Graffiticode lambda-type syntax: `<arg1 arg2: return>`.
 
 ## Structural functions
 
-| Function | Arity | Signature | Description |
-| :------- | :---- | :-------- | :---------- |
-| `board`  | 2 | `<fileKeyOrUrl: string> <rec>` | Root; accepts a Figma file key or full `figma.com/board/...` URL. |
-| `pages`  | 2 | `<list> <rec>` | Attaches pages list to the record. |
-| `page`   | 2 | `<name: string> <rec>` | One page. |
-| `nodes`  | 2 | `<list> <rec>` | Attaches nodes list to the record. |
+| Function | Type | Description |
+| :------- | :--- | :---------- |
+| `board` | `<string record: record>` | Root; first arg is a Figma file key or full `figma.com/board/...` URL. |
+| `pages` | `<list record: record>` | Attaches pages list to the record. |
+| `page`  | `<string record: record>` | One page. |
+| `nodes` | `<list record: record>` | Attaches nodes list to the record. |
 
-## Node-type functions (arity 2)
+## Node-type functions
 
-`sticky`, `text`, `connector`, `section`, `stamp`. First argument is the
-node's primary string (text / label / name / stamp).
+All have type `<string record: record>`. First arg is the node's primary
+string (text / label / name / stamp).
 
-## Shape-with-text functions (arity 2)
+`sticky`, `text`, `connector`, `section`, `stamp`.
 
-First argument is the shape's text content. Emits
-`{ type: "shape", shapeType: "<ENUM>", text, ... }`.
+## Shape functions
+
+All have type `<string record: record>`. First arg is the shape's text
+content. Emits `{ type: "shape", shapeType: "<ENUM>", text, ... }`.
 
 `square`, `ellipse`, `rounded-rectangle`, `diamond`, `triangle-up`,
 `triangle-down`, `parallelogram-right`, `parallelogram-left`,
@@ -30,12 +33,14 @@ First argument is the shape's text content. Emits
 `input-output`, `terminator`, `summing-junction`, `logic-or`,
 `internal-storage`, `cloud`, `heart`, `trapezoid`, `star`.
 
-## Property setters (arity 2)
+## Property setters
 
 Attach a field to the wrapped record.
 
-`x`, `y`, `width`, `height`, `fill`, `stroke`, `stroke-width`, `opacity`,
-`label`, `color`.
+| Function | Type |
+| :------- | :--- |
+| `x`, `y`, `width`, `height`, `stroke-width`, `opacity` | `<number record: record>` |
+| `fill`, `stroke`, `label`, `color` | `<string record: record>` |
 
 ## Examples
 

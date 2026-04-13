@@ -10,16 +10,18 @@ semantics and base library can be found here:
 
 ## Structural Functions
 
-| Function | Arity | Signature | Description |
-| :------- | :---- | :-------- | :---------- |
-| `board`  | 2 | `<fileKeyOrUrl: string> <rec: record>` | Root of a board. Accepts a Figma file key or a `figma.com/board/<key>/...` URL. |
-| `pages`  | 2 | `<list> <rec: record>` | Attaches a list of `page` records to the wrapped record. |
-| `page`   | 2 | `<name: string> <rec: record>` | A single page on the board. |
-| `nodes`  | 2 | `<list> <rec: record>` | Attaches a list of node records to the wrapped record. |
+| Function | Type | Description |
+| :------- | :--- | :---------- |
+| `board` | `<string record: record>` | Root of a board. First arg is a Figma file key or a `figma.com/board/<key>/...` URL. |
+| `pages` | `<list record: record>` | Attaches a list of `page` records to the wrapped record. |
+| `page`  | `<string record: record>` | A single page on the board. |
+| `nodes` | `<list record: record>` | Attaches a list of node records to the wrapped record. |
 
-## Node Types
+## Node-Type Functions
 
-All node-type functions are arity 2: `<text-or-name: string> <rec: record>`.
+All node-type functions have type `<string record: record>`. The first
+argument is the node's primary string (text / label / name / stamp); the
+second is the property record. They emit `{ type, <primary field>, ...rec }`.
 
 | Function | Emitted `type` | Primary field |
 | :------- | :------------- | :------------ |
@@ -29,26 +31,58 @@ All node-type functions are arity 2: `<text-or-name: string> <rec: record>`.
 | `section`   | `section`   | `name`  |
 | `stamp`     | `stamp`     | `stamp` |
 
-## Shape Types (shape-with-text)
+## Shape Functions
 
-All shape functions are arity 2: `<text: string> <rec: record>`. They emit
+All shape functions have type `<string record: record>`. The first argument
+is the shape's text content. They emit
 `{ type: "shape", shapeType: "<ENUM>", text, ...rec }` using FigJam's
 `shapeType` enum.
 
-`square`, `ellipse`, `rounded-rectangle`, `diamond`, `triangle-up`,
-`triangle-down`, `parallelogram-right`, `parallelogram-left`,
-`eng-database`, `eng-queue`, `eng-file`, `eng-folder`,
-`predefined-process`, `shield`, `document`, `process`, `decision`,
-`input-output`, `terminator`, `summing-junction`, `logic-or`,
-`internal-storage`, `cloud`, `heart`, `trapezoid`, `star`.
+| Function | `shapeType` |
+| :------- | :---------- |
+| `square`               | `SQUARE` |
+| `ellipse`              | `ELLIPSE` |
+| `rounded-rectangle`    | `ROUNDED_RECTANGLE` |
+| `diamond`              | `DIAMOND` |
+| `triangle-up`          | `TRIANGLE_UP` |
+| `triangle-down`        | `TRIANGLE_DOWN` |
+| `parallelogram-right`  | `PARALLELOGRAM_RIGHT` |
+| `parallelogram-left`   | `PARALLELOGRAM_LEFT` |
+| `eng-database`         | `ENG_DATABASE` |
+| `eng-queue`            | `ENG_QUEUE` |
+| `eng-file`             | `ENG_FILE` |
+| `eng-folder`           | `ENG_FOLDER` |
+| `predefined-process`   | `PREDEFINED_PROCESS` |
+| `shield`               | `SHIELD` |
+| `document`             | `DOCUMENT` |
+| `process`              | `PROCESS` |
+| `decision`             | `DECISION` |
+| `input-output`         | `INPUT_OUTPUT` |
+| `terminator`           | `TERMINATOR` |
+| `summing-junction`     | `SUMMING_JUNCTION` |
+| `logic-or`             | `LOGIC_OR` |
+| `internal-storage`     | `INTERNAL_STORAGE` |
+| `cloud`                | `CLOUD` |
+| `heart`                | `HEART` |
+| `trapezoid`            | `TRAPEZOID` |
+| `star`                 | `STAR` |
 
 ## Property Setters
 
-All property setters are arity 2: `<value> <rec: record>`. They attach a
-field to the wrapped record.
+Property setters attach a field to the wrapped record.
 
-`x`, `y`, `width`, `height`, `fill`, `stroke`, `stroke-width`, `opacity`,
-`label`, `color`.
+| Function | Type |
+| :------- | :--- |
+| `x`            | `<number record: record>` |
+| `y`            | `<number record: record>` |
+| `width`        | `<number record: record>` |
+| `height`       | `<number record: record>` |
+| `fill`         | `<string record: record>` |
+| `stroke`       | `<string record: record>` |
+| `stroke-width` | `<number record: record>` |
+| `opacity`      | `<number record: record>` |
+| `label`        | `<string record: record>` |
+| `color`        | `<string record: record>` |
 
 ## Program Example
 
@@ -60,5 +94,4 @@ board "https://www.figma.com/board/ABC123/My-Board" pages [
     connector "link" {}
   ] {}
 ] {}..
-
 ```
