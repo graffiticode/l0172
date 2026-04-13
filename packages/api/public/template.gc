@@ -1,1 +1,5 @@
-42..
+board "ABC123" pages [
+  page "Page 1" nodes [
+    sticky "Hello" {}
+  ] {}
+] {}..

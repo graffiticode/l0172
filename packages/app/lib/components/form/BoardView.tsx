@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
 import "../../index.css";
 
-interface FigJamViewProps {
+interface BoardViewProps {
   fileKey?: string;
 }
 
-export const FigJamView = ({ fileKey }: FigJamViewProps) => {
+export const BoardView = ({ fileKey }: BoardViewProps) => {
   if (!fileKey) {
     return (
       <div className="rounded-md p-3 border text-sm bg-red-50 border-red-200 text-red-800">
-        Missing FigJam file key. Use <code className="bg-red-100 px-1 rounded">figjam "fileKey" ...</code> to specify the target board.
+        Missing board file key. Use <code className="bg-red-100 px-1 rounded">board "fileKey" ...</code> to specify the target board.
       </div>
     );
   }

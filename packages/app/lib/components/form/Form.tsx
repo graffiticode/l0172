@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 import "../../index.css";
 
-import { FigJamView } from "./FigJamView";
+import { BoardView } from "./BoardView";
 
 function renderErrors(errors: { message: string; from: number; to: number }[]) {
   return (
@@ -39,8 +39,8 @@ function render({ state }) {
     } else {
       return renderJSON(source.print);
     }
-  } else if (source?.ellipses) {
-    return <FigJamView fileKey={source.figjamFileKey} />;
+  } else if (source?.type === "board" || source?.fileKey) {
+    return <BoardView fileKey={source.fileKey} />;
   } else {
     return renderJSON(source);
   }

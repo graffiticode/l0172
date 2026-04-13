@@ -1,61 +1,60 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
 # L0172 Dialect Extensions
 
-L0172 is a Graffiticode dialect for describing ellipse shapes and
-rendering them on a FigJam board.
+L0172 generates FigJam board content. Programs describe a board → pages →
+nodes hierarchy using the functions below.
 
-## L0172 Functions
+## Structural functions
 
-Each function takes a value followed by a *rest* record and returns a
-new record with one field set. Chain calls together to build a shape
-and terminate with `{}`.
+| Function | Arity | Signature | Description |
+| :------- | :---- | :-------- | :---------- |
+| `board`  | 2 | `<fileKeyOrUrl: string> <rec>` | Root; accepts a Figma file key or full `figma.com/board/...` URL. |
+| `pages`  | 2 | `<list> <rec>` | Attaches pages list to the record. |
+| `page`   | 2 | `<name: string> <rec>` | One page. |
+| `nodes`  | 2 | `<list> <rec>` | Attaches nodes list to the record. |
 
-| Function       | Signature                 | Field set       |
-| :------------- | :------------------------ | :-------------- |
-| `ellipse`      | `<string record: record>` | `name`          |
-| `x`            | `<number record: record>` | `x`             |
-| `y`            | `<number record: record>` | `y`             |
-| `width`        | `<number record: record>` | `width`         |
-| `height`       | `<number record: record>` | `height`        |
-| `fill`         | `<string record: record>` | `fill`          |
-| `stroke`       | `<string record: record>` | `stroke`        |
-| `stroke-width` | `<number record: record>` | `strokeWidth`   |
-| `opacity`      | `<number record: record>` | `opacity`       |
-| `label`        | `<string record: record>` | `label`         |
-| `color`        | `<string record: record>` | `color`         |
-| `figjam`       | `<string record: record>` | `figjamFileKey` |
+## Node-type functions (arity 2)
 
-A program is one or more chained records, top-level. The compiler
-collects every record that has a `name` field into an `ellipses` array.
-If any `figjam` call is present, its value becomes `figjamFileKey` at
-the top level.
+`sticky`, `text`, `connector`, `section`, `stamp`. First argument is the
+node's primary string (text / label / name / stamp).
 
-## L0172 Examples
+## Shape-with-text functions (arity 2)
 
-### A single ellipse
+First argument is the shape's text content. Emits
+`{ type: "shape", shapeType: "<ENUM>", text, ... }`.
+
+`square`, `ellipse`, `rounded-rectangle`, `diamond`, `triangle-up`,
+`triangle-down`, `parallelogram-right`, `parallelogram-left`,
+`eng-database`, `eng-queue`, `eng-file`, `eng-folder`,
+`predefined-process`, `shield`, `document`, `process`, `decision`,
+`input-output`, `terminator`, `summing-junction`, `logic-or`,
+`internal-storage`, `cloud`, `heart`, `trapezoid`, `star`.
+
+## Property setters (arity 2)
+
+Attach a field to the wrapped record.
+
+`x`, `y`, `width`, `height`, `fill`, `stroke`, `stroke-width`, `opacity`,
+`label`, `color`.
+
+## Examples
+
+Rules:
+- `..` terminates the entire program — use it only once, at the very end.
+- All functions are arity 2 and must be terminated with a record. Use `{}` when there are no more props.
+
+### Minimal board
 ```
-ellipse "a" x 100 y 100 width 200 height 100 fill "#4f46e5" {}..
-```
-
-### Multiple ellipses with stroke
-```
-ellipse "a" x  50 y  50 width 120 height  80 fill "#4f46e5" {}
-ellipse "b" x 200 y 120 width 140 height  90 fill "#f59e0b" stroke "#000" stroke-width 2 {}..
-```
-
-### Label and opacity
-```
-ellipse "a" x 100 y 100 width 200 height 100 fill "#4f46e5" label "hello" color "white" opacity 0.8 {}..
-```
-
-### Targeting a FigJam file
-```
-figjam "ABC123FileKey" {}
-ellipse "a" x 100 y 100 width 200 height 100 fill "#4f46e5" {}..
+board "ABC123" pages [page "Page 1" nodes [] {} ] {}..
 ```
 
-### Reusing values via `let`
+### Board with mixed nodes
 ```
-let blue = "#4f46e5"..
-ellipse "a" x 100 y 100 width 200 height 100 fill blue {}..
+board "https://www.figma.com/board/ABC123/Demo" pages [
+  page "Flow" nodes [
+    sticky "Kickoff" x 0 y 0 {}
+    ellipse "Decision" x 200 y 0 fill "#ffcc00" {}
+    connector "next" {}
+  ] {}
+] {}..
 ```

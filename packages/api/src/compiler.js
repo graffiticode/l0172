@@ -5,103 +5,56 @@ import {
   Transformer as BasisTransformer,
   Compiler as BasisCompiler
 } from '@graffiticode/basis';
+import { SHAPE_TYPE_ENUM, NODE_TYPE_NAMES } from './lexicon.js';
+
+const toMethodName = (surface) => surface.replace(/-/g, "_").toUpperCase();
+
+const PROP_SETTERS = {
+  X: "x",
+  Y: "y",
+  WIDTH: "width",
+  HEIGHT: "height",
+  FILL: "fill",
+  STROKE: "stroke",
+  STROKE_WIDTH: "strokeWidth",
+  OPACITY: "opacity",
+  LABEL: "label",
+  COLOR: "color",
+};
+
+const NODE_PRIMARY_FIELD = {
+  sticky: "text",
+  text: "text",
+  connector: "label",
+  section: "name",
+  stamp: "stamp",
+};
+
+function parseFileKey(input) {
+  if (typeof input !== "string") return input;
+  const m = input.match(/figma\.com\/(?:board|design|file)\/([^/?#]+)/);
+  return m ? m[1] : input;
+}
+
+function visitArity2(node, options, resume) {
+  this.visit(node.elts[0], options, () => {
+    this.visit(node.elts[1], options, () => {
+      resume([], node);
+    });
+  });
+}
+
+function visitArity1(node, options, resume) {
+  this.visit(node.elts[0], options, () => {
+    resume([], node);
+  });
+}
 
 export class Checker extends BasisChecker {
-  ELLIPSE(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  X(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  Y(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  WIDTH(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  HEIGHT(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  FILL(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  STROKE(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  STROKE_WIDTH(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  OPACITY(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  LABEL(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  COLOR(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
-
-  FIGJAM(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], node);
-      });
-    });
-  }
+  BOARD(node, options, resume) { visitArity2.call(this, node, options, resume); }
+  PAGES(node, options, resume) { visitArity2.call(this, node, options, resume); }
+  PAGE(node, options, resume) { visitArity2.call(this, node, options, resume); }
+  NODES(node, options, resume) { visitArity2.call(this, node, options, resume); }
 }
 
 export class Transformer extends BasisTransformer {
@@ -111,98 +64,34 @@ export class Transformer extends BasisTransformer {
     });
   }
 
-  ELLIPSE(node, options, resume) {
+  BOARD(node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
       this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, name: v0 });
+        resume([], { ...v1, type: "board", fileKey: parseFileKey(v0) });
       });
     });
   }
 
-  X(node, options, resume) {
+  PAGES(node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
       this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, x: v0 });
+        resume([], { ...v1, pages: v0 });
       });
     });
   }
 
-  Y(node, options, resume) {
+  PAGE(node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
       this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, y: v0 });
+        resume([], { ...v1, type: "page", name: v0 });
       });
     });
   }
 
-  WIDTH(node, options, resume) {
+  NODES(node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
       this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, width: v0 });
-      });
-    });
-  }
-
-  HEIGHT(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, height: v0 });
-      });
-    });
-  }
-
-  FILL(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, fill: v0 });
-      });
-    });
-  }
-
-  STROKE(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, stroke: v0 });
-      });
-    });
-  }
-
-  STROKE_WIDTH(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, strokeWidth: v0 });
-      });
-    });
-  }
-
-  OPACITY(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, opacity: v0 });
-      });
-    });
-  }
-
-  LABEL(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, label: v0 });
-      });
-    });
-  }
-
-  COLOR(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, color: v0 });
-      });
-    });
-  }
-
-  FIGJAM(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, figjamFileKey: v0 });
+        resume([], { ...v1, nodes: v0 });
       });
     });
   }
@@ -210,26 +99,65 @@ export class Transformer extends BasisTransformer {
   PROG(node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
       const data = options?.data || {};
-      const items = Array.isArray(v0) ? v0 : [v0];
-      const ellipses = [];
-      let figjamFileKey;
+      const items = v0;
+      let board;
       for (const item of items) {
-        if (typeof item === 'object' && item !== null) {
-          if (item.figjamFileKey) {
-            figjamFileKey = item.figjamFileKey;
-          }
-          if (item.name !== undefined) {
-            ellipses.push(item);
-          }
+        if (item && typeof item === "object" && item.type === "board") {
+          board = item;
         }
       }
-      resume(e0, {
-        ellipses,
-        ...(figjamFileKey && { figjamFileKey }),
-        ...data,
-      });
+      if (board) {
+        resume(e0, { ...data, ...board });
+      } else {
+        resume(e0, { ...data, items });
+      }
     });
   }
+}
+
+// Generate per-prop setter methods (arity 2).
+for (const [method, field] of Object.entries(PROP_SETTERS)) {
+  Checker.prototype[method] = function (node, options, resume) {
+    visitArity2.call(this, node, options, resume);
+  };
+  Transformer.prototype[method] = function (node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, [field]: v0 });
+      });
+    });
+  };
+}
+
+// Generate node-type methods (arity 2).
+for (const surface of NODE_TYPE_NAMES) {
+  const method = toMethodName(surface);
+  const field = NODE_PRIMARY_FIELD[surface];
+  Checker.prototype[method] = function (node, options, resume) {
+    visitArity2.call(this, node, options, resume);
+  };
+  Transformer.prototype[method] = function (node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, type: surface, [field]: v0 });
+      });
+    });
+  };
+}
+
+// Generate shape-with-text type methods (arity 2).
+for (const [surface, enumName] of Object.entries(SHAPE_TYPE_ENUM)) {
+  const method = toMethodName(surface);
+  Checker.prototype[method] = function (node, options, resume) {
+    visitArity2.call(this, node, options, resume);
+  };
+  Transformer.prototype[method] = function (node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        resume([], { ...v1, type: "shape", shapeType: enumName, text: v0 });
+      });
+    });
+  };
 }
 
 export const compiler = new BasisCompiler({

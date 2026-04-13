@@ -1,1 +1,5 @@
-ellipse "a" x 100 y 100 width 200 height 100 fill "#4f46e5" {}..
+board "ABC123" pages [
+  page "Page 1" nodes [
+    sticky "Hello" {}
+  ] {}
+] {}..

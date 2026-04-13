@@ -2,66 +2,63 @@
 # L0172 Vocabulary
 
 This specification documents dialect-specific functions available in the
-**L0172** language of Graffiticode. L0172 describes ellipse shapes for
-rendering on a FigJam board.
+**L0172** language of Graffiticode, which produces FigJam board content.
 
 The core language specification including the definition of its syntax,
 semantics and base library can be found here:
 [Graffiticode Language Specification](./graffiticode-language-spec.html)
 
-## Functions
+## Structural Functions
 
-Every shape function takes a *value* and a *rest* record, returning a new
-record with its field set. Shapes are built by chaining these calls and
-terminating with `{}`.
+| Function | Arity | Signature | Description |
+| :------- | :---- | :-------- | :---------- |
+| `board`  | 2 | `<fileKeyOrUrl: string> <rec: record>` | Root of a board. Accepts a Figma file key or a `figma.com/board/<key>/...` URL. |
+| `pages`  | 2 | `<list> <rec: record>` | Attaches a list of `page` records to the wrapped record. |
+| `page`   | 2 | `<name: string> <rec: record>` | A single page on the board. |
+| `nodes`  | 2 | `<list> <rec: record>` | Attaches a list of node records to the wrapped record. |
 
-| Function       | Signature                 | Field set       |
-| :------------- | :------------------------ | :-------------- |
-| `ellipse`      | `<string record: record>` | `name`          |
-| `x`            | `<number record: record>` | `x`             |
-| `y`            | `<number record: record>` | `y`             |
-| `width`        | `<number record: record>` | `width`         |
-| `height`       | `<number record: record>` | `height`        |
-| `fill`         | `<string record: record>` | `fill`          |
-| `stroke`       | `<string record: record>` | `stroke`        |
-| `stroke-width` | `<number record: record>` | `strokeWidth`   |
-| `opacity`      | `<number record: record>` | `opacity`       |
-| `label`        | `<string record: record>` | `label`         |
-| `color`        | `<string record: record>` | `color`         |
-| `figjam`       | `<string record: record>` | `figjamFileKey` |
+## Node Types
 
-A program is a sequence of such chained records. The compiler collects
-every record that has a `name` field into an `ellipses` array. If any
-`figjam` call is present, its value is attached at the top level as
-`figjamFileKey`.
+All node-type functions are arity 2: `<text-or-name: string> <rec: record>`.
 
-Output shape:
+| Function | Emitted `type` | Primary field |
+| :------- | :------------- | :------------ |
+| `sticky`    | `sticky`    | `text`  |
+| `text`      | `text`      | `text`  |
+| `connector` | `connector` | `label` |
+| `section`   | `section`   | `name`  |
+| `stamp`     | `stamp`     | `stamp` |
 
-```
-{
-  "ellipses": [ { "name": ..., "x": ..., ... }, ... ],
-  "figjamFileKey": "..."   // optional
-}
-```
+## Shape Types (shape-with-text)
 
-## Program Examples
+All shape functions are arity 2: `<text: string> <rec: record>`. They emit
+`{ type: "shape", shapeType: "<ENUM>", text, ...rec }` using FigJam's
+`shapeType` enum.
 
-### A single ellipse
+`square`, `ellipse`, `rounded-rectangle`, `diamond`, `triangle-up`,
+`triangle-down`, `parallelogram-right`, `parallelogram-left`,
+`eng-database`, `eng-queue`, `eng-file`, `eng-folder`,
+`predefined-process`, `shield`, `document`, `process`, `decision`,
+`input-output`, `terminator`, `summing-junction`, `logic-or`,
+`internal-storage`, `cloud`, `heart`, `trapezoid`, `star`.
 
-```
-ellipse "a" x 100 y 100 width 200 height 100 fill "#4f46e5" {}..
-```
+## Property Setters
 
-### Multiple ellipses
+All property setters are arity 2: `<value> <rec: record>`. They attach a
+field to the wrapped record.
 
-```
-ellipse "a" x  50 y  50 width 120 height  80 fill "#4f46e5" {}
-ellipse "b" x 200 y 120 width 140 height  90 fill "#f59e0b" stroke "#000" stroke-width 2 {}..
-```
+`x`, `y`, `width`, `height`, `fill`, `stroke`, `stroke-width`, `opacity`,
+`label`, `color`.
 
-### Targeting a FigJam file
+## Program Example
 
 ```
-figjam "ABC123FileKey" {}
-ellipse "a" x 100 y 100 width 200 height 100 fill "#4f46e5" {}..
+board "https://www.figma.com/board/ABC123/My-Board" pages [
+  page "Page 1" nodes [
+    sticky "Hello" {}
+    ellipse "Center" x 100 y 100 {}
+    connector "link" {}
+  ] {}
+] {}..
+
 ```
