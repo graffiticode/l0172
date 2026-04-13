@@ -210,7 +210,7 @@ export class Transformer extends BasisTransformer {
   PROG(node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
       const data = options?.data || {};
-      const items = v0;
+      const items = Array.isArray(v0) ? v0 : [v0];
       const ellipses = [];
       let figjamFileKey;
       for (const item of items) {

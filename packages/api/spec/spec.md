@@ -2,8 +2,8 @@
 # L0172 Vocabulary
 
 This specification documents dialect-specific functions available in the
-**L0172** language of Graffiticode. These functions extend the core language
-with additional functionality tailored to L0172 use cases.
+**L0172** language of Graffiticode. L0172 describes ellipse shapes for
+rendering on a FigJam board.
 
 The core language specification including the definition of its syntax,
 semantics and base library can be found here:
@@ -11,35 +11,57 @@ semantics and base library can be found here:
 
 ## Functions
 
-| Function | Signature | Description |
-| :------- | :-------- | :---------- |
-| `hello` | `<string: record>` | Renders a hello message |
-| `theme` | `<[dark|light] record: record>` | Selects a theme |
+Every shape function takes a *value* and a *rest* record, returning a new
+record with its field set. Shapes are built by chaining these calls and
+terminating with `{}`.
 
-### hello
+| Function       | Signature                 | Field set       |
+| :------------- | :------------------------ | :-------------- |
+| `ellipse`      | `<string record: record>` | `name`          |
+| `x`            | `<number record: record>` | `x`             |
+| `y`            | `<number record: record>` | `y`             |
+| `width`        | `<number record: record>` | `width`         |
+| `height`       | `<number record: record>` | `height`        |
+| `fill`         | `<string record: record>` | `fill`          |
+| `stroke`       | `<string record: record>` | `stroke`        |
+| `stroke-width` | `<number record: record>` | `strokeWidth`   |
+| `opacity`      | `<number record: record>` | `opacity`       |
+| `label`        | `<string record: record>` | `label`         |
+| `color`        | `<string record: record>` | `color`         |
+| `figjam`       | `<string record: record>` | `figjamFileKey` |
 
-Renders a hello message formatted in K&R style that includes the given string.
+A program is a sequence of such chained records. The compiler collects
+every record that has a `name` field into an `ellipses` array. If any
+`figjam` call is present, its value is attached at the top level as
+`figjamFileKey`.
+
+Output shape:
 
 ```
-hello "world"  | returns "hello, world!"
-```
-
-### theme
-
-Select a theme and render the theme toggle button to allow users to set the
-theme. The tag values `dark` and `light` are the only accepted argument values.
-
-```
-theme dark "as night"
-```
-```
-theme light "as day"
+{
+  "ellipses": [ { "name": ..., "x": ..., ... }, ... ],
+  "figjamFileKey": "..."   // optional
+}
 ```
 
 ## Program Examples
 
-Render the text "hello, world!" in the dark theme.
+### A single ellipse
 
 ```
-theme dark hello "night"..
+ellipse "a" x 100 y 100 width 200 height 100 fill "#4f46e5" {}..
+```
+
+### Multiple ellipses
+
+```
+ellipse "a" x  50 y  50 width 120 height  80 fill "#4f46e5" {}
+ellipse "b" x 200 y 120 width 140 height  90 fill "#f59e0b" stroke "#000" stroke-width 2 {}..
+```
+
+### Targeting a FigJam file
+
+```
+figjam "ABC123FileKey" {}
+ellipse "a" x 100 y 100 width 200 height 100 fill "#4f46e5" {}..
 ```
