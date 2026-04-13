@@ -43,6 +43,13 @@ Rules:
 - `..` terminates the entire program — use it only once, at the very end.
 - All functions are arity 2 and must be terminated with a record. Use `{}` when there are no more props.
 
+### Single-page shorthand
+For a board with one page, `pages [page ...]` may be elided — pass `nodes`
+directly to `board`:
+```
+board "ABC123" nodes [sticky "Hello" {}] {}..
+```
+
 ### Minimal board
 ```
 board "ABC123" pages [page "Page 1" nodes [] {} ] {}..

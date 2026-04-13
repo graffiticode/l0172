@@ -67,7 +67,13 @@ export class Transformer extends BasisTransformer {
   BOARD(node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
       this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, type: "board", fileKey: parseFileKey(v0) });
+        const rec = { ...v1 };
+        if (!rec.pages && rec.nodes) {
+          const { nodes, ...rest } = rec;
+          resume([], { ...rest, pages: [{ type: "page", nodes }], type: "board", fileKey: parseFileKey(v0) });
+          return;
+        }
+        resume([], { ...rec, type: "board", fileKey: parseFileKey(v0) });
       });
     });
   }
