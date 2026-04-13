@@ -20,6 +20,8 @@ const PROP_SETTERS = {
   OPACITY: "opacity",
   LABEL: "label",
   COLOR: "color",
+  FROM: "from",
+  TO: "to",
 };
 
 const NODE_PRIMARY_FIELD = {

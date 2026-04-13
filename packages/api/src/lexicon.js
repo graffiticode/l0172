@@ -37,6 +37,7 @@ const PROP_SETTERS = [
   "x", "y", "width", "height",
   "fill", "stroke", "stroke-width", "opacity",
   "label", "color",
+  "from", "to",
 ];
 
 const toMethodName = (surface) => surface.replace(/-/g, "_").toUpperCase();

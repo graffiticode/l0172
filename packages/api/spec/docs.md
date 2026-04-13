@@ -35,7 +35,7 @@ which the browser view renders as a single filled ellipse.
 | **fill**         | 2     | `fill "#4f46e5" rest`   | sets the fill color                                     |
 | **stroke**       | 2     | `stroke "#000" rest`    | sets the stroke color                                   |
 | **stroke-width** | 2     | `stroke-width 2 rest`   | sets the stroke width                                   |
-| **opacity**      | 2     | `opacity 0.5 rest`      | sets the opacity (0 – 1)                                |
+| **opacity**      | 2     | `opacity 50 rest`       | sets the opacity (0 – 100)                              |
 | **label**        | 2     | `label "hello" rest`    | attaches a text label                                   |
 | **color**        | 2     | `color "red" rest`      | sets a named color (used by the renderer for the label) |
 | **figjam**       | 2     | `figjam "FileKey" rest` | targets a specific FigJam file for rendering            |
