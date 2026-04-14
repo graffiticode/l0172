@@ -47,14 +47,14 @@
 
 ## Category 5: Flowchart Shapes (31–38)
 
-31. Create a board with a process shape labeled "Compute" at x 400 y 0.
-32. Create a board with a decision shape labeled "Is valid?".
-33. Create a board with an input-output shape labeled "User Input".
-34. Create a board with a terminator shape labeled "Start".
+31. Create a board with a predefined-process shape labeled "Compute" at x 400 y 0.
+32. Create a board with a diamond labeled "Is valid?" used as a decision.
+33. Create a board with a parallelogram-right labeled "User Input" used for I/O.
+34. Create a board with a rounded-rectangle labeled "Start" used as a terminator.
 35. Create a board with a predefined-process shape labeled "Subroutine".
 36. Create a board with an internal-storage shape labeled "Cache".
-37. Create a board with a summing-junction shape and a logic-or shape.
-38. Create a flowchart with terminator "Start", process "Validate", decision "OK?", and terminator "End" in a row.
+37. Create a board with a summing-junction shape and an or shape.
+38. Create a flowchart with rounded-rectangle "Start", predefined-process "Validate", diamond "OK?", and rounded-rectangle "End" in a row.
 
 ## Category 6: Engineering and Specialized Shapes (39–46)
 
@@ -62,14 +62,14 @@
 40. Create a board with an eng-queue shape labeled "Task Queue".
 41. Create a board with an eng-file shape labeled "config.json".
 42. Create a board with an eng-folder shape labeled "assets".
-43. Create a board with a cloud shape labeled "External API".
-44. Create a board with a document shape labeled "Spec".
+43. Create a board with a speech-bubble shape labeled "External API".
+44. Create a board with a document-single shape labeled "Spec".
 45. Create a board with a shield shape labeled "Auth".
-46. Create a board with an eng-database, cloud, and eng-queue illustrating a data pipeline.
+46. Create a board with an eng-database, speech-bubble, and eng-queue illustrating a data pipeline.
 
 ## Category 7: Decorative Shapes and Stamps (47–52)
 
-47. Create a board with a heart shape filled with "#ff1493".
+47. Create a board with an octagon shape filled with "#ff1493".
 48. Create a board with a gold star labeled "Success".
 49. Create a board with three stars in a row representing a rating.
 50. Create a board with a "like" stamp at x 100 y 100.
@@ -91,31 +91,31 @@
 
 61. Create a board with an ellipse filled "#ffcc00" with stroke "#333333" and stroke-width 2.
 62. Create a board with a square with a red fill and black stroke.
-63. Create a board with a process shape at 80% opacity.
+63. Create a board with a predefined-process shape at 80% opacity.
 64. Create a board with a text label in color "#4f46e5".
 65. Create a board with three sticky notes in pastel yellow, pink, and green.
 66. Create a board with a diamond filled "#ff6b6b" and stroke "#333333".
 67. Create a board with a rounded-rectangle with white fill and gray stroke.
 68. Create a board with a faded sticky note at opacity 40 next to a solid one.
 69. Create a board with a star filled "#ffd700" at opacity 75.
-70. Create a board with a cloud filled "#10b981" and a diamond filled "#ff6b6b".
+70. Create a board with a speech-bubble filled "#10b981" and a diamond filled "#ff6b6b".
 
 ## Category 10: Connectors — Basics (71–78)
 
 71. Create a board with two sticky notes connected by a connector labeled "next".
 72. Create a board with an unlabeled connector between a start and end ellipse.
-73. Create a board with a connector going from a process shape to a decision shape.
+73. Create a board with a connector going from a predefined-process shape to a diamond.
 74. Create a board with a labeled "yes" connector and a labeled "no" connector leaving a decision.
 75. Create a board with a connector with a custom stroke color "#4f46e5".
 76. Create a board with a connector with stroke-width 3.
 77. Create a board with a connector at 50% opacity between two stickies.
-78. Create a flowchart with terminator, process, decision, and terminator connected in sequence by labeled connectors.
+78. Create a flowchart with rounded-rectangle, predefined-process, diamond, and rounded-rectangle connected in sequence by labeled connectors.
 
 ## Category 11: Connectors — Fan-out and Wildcards (79–84)
 
 79. Create a board with a hub sticky connected to three child stickies using a list to-target.
 80. Create a board with one sticky labeled "Hub" connected to all other nodes using a wildcard to "*".
-81. Create a board where three input stickies all connect to a single process using from as a list.
+81. Create a board where three input stickies all connect to a single predefined-process using from as a list.
 82. Create a board with a sticky connected to a list of four other stickies.
 83. Create a board with a wildcard connector from "Source" to every other node, unlabeled.
 84. Create a board with two decisions each fanning out to three outcomes via labeled connectors.
@@ -138,9 +138,9 @@
 ## Category 14: Full Feature Compositions (94–100)
 
 94. Create a board with a heading text, three sticky notes, and a connector between two of them.
-95. Create a flowchart with a terminator "Start", a process "Fetch data", a decision "Valid?", branching with "yes" and "no" labeled connectors to two terminators.
-96. Create a system diagram with a cloud labeled "API", an eng-database labeled "DB", an eng-queue labeled "Jobs", and connectors showing flow between them.
+95. Create a flowchart with a rounded-rectangle "Start", a predefined-process "Fetch data", a diamond "Valid?", branching with "yes" and "no" labeled connectors to two rounded-rectangles.
+96. Create a system diagram with a speech-bubble labeled "API", an eng-database labeled "DB", an eng-queue labeled "Jobs", and connectors showing flow between them.
 97. Create a brainstorm board with a central sticky "Idea" and six sticky notes arranged around it connected with unlabeled connectors using a wildcard.
 98. Create a roadmap board with three sections "Q1", "Q2", "Q3", each containing two sticky milestones, with arrows connecting milestones across quarters.
 99. Create a retrospective board with three sections "Went Well", "To Improve", "Action Items", each filled with pastel colors and containing three sticky notes styled with different fills.
-100. Create a fully featured board with a title text, a section "System", containing styled flowchart shapes (terminator, process, decision, terminator) connected with labeled "yes"/"no" connectors, a stamp "like" for approval, and a side section "Notes" with yellow sticky notes.
+100. Create a fully featured board with a title text, a section "System", containing styled flowchart shapes (rounded-rectangle, predefined-process, diamond, rounded-rectangle) connected with labeled "yes"/"no" connectors, a stamp "like" for approval, and a side section "Notes" with yellow sticky notes.
