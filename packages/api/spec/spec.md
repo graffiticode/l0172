@@ -170,12 +170,28 @@ connector "no"  from "Decision?" to "Hold" {}
 
 ### section
 
-A section container that visually groups nodes. The first argument is the
-section name.
+A section container that groups other nodes. The first argument is the
+section name. A section can be a leaf (just a labelled frame) or a true
+container — if its property record includes a `nodes` list, those nodes
+are rendered as children of the section.
+
+Leaf section (size specified explicitly):
 
 ```
 section "Phase 1" width 600 height 400 {}
 ```
+
+Container section (wraps nested nodes; size defaults to fit):
+
+```
+section "Phase 1" nodes [
+  sticky "Kickoff" x 40 y 40 {},
+  ellipse "Decide?" x 240 y 40 {}
+] {}
+```
+
+Connectors declared at the board level can still target nodes inside a
+section by their primary string — the name lookup is global.
 
 ### stamp
 

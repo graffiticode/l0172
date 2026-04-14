@@ -19,6 +19,10 @@ string (text / label / name / stamp).
 
 `sticky`, `text`, `connector`, `section`, `stamp`.
 
+`section` is a container: attach a nested `nodes [...]` list to render
+its children inside it. If `nodes` is omitted, the section is drawn as a
+labelled frame at its given size.
+
 ## Shape functions
 
 All have type `<string record: record>`. First arg is the shape's text
@@ -61,5 +65,15 @@ board "https://www.figma.com/board/ABC123/Demo" nodes [
   sticky "Kickoff" x 0 y 0 {}
   ellipse "Decision" x 200 y 0 fill "#ffcc00" {}
   connector "next" from "Kickoff" to "Decision" {}
+] {}..
+```
+
+### Grouping nodes inside a section
+```
+board "ABC123" nodes [
+  section "Phase 1" nodes [
+    sticky "Kickoff" x 40 y 40 {},
+    ellipse "Decide?" x 240 y 40 {}
+  ] {}
 ] {}..
 ```
