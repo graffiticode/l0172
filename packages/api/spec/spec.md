@@ -14,9 +14,7 @@ semantics and base library can be found here:
 | Function | Signature | Description |
 | :------- | :-------- | :---------- |
 | `board` | `<string record: record>` | Root of a board; file key or board URL |
-| `pages` | `<list record: record>` | Attaches a list of pages to the board |
-| `page` | `<string record: record>` | A single page on the board |
-| `nodes` | `<list record: record>` | Attaches a list of nodes to a page |
+| `nodes` | `<list record: record>` | Attaches a list of nodes to the board |
 | `sticky` | `<string record: record>` | A FigJam sticky note |
 | `text` | `<string record: record>` | A free-floating text node |
 | `connector` | `<string record: record>` | A line/arrow between nodes |
@@ -85,48 +83,22 @@ below lists which properties are honored by the renderer.
 
 Root of a board. The first argument is a Figma file key (e.g. `"ABC123"`)
 or a full board URL of the form `figma.com/board/<key>/<name>` — URL forms
-are normalized to the file key. The property record typically carries
-`pages`, or `nodes` as a single-page shorthand.
-
-```
-board "ABC123" pages [page "Page 1" nodes [] {}] {}..
-```
-
-Single-page shorthand (elides `pages` / `page`):
+are normalized to the file key. The property record carries a `nodes`
+list and any other board-level properties.
 
 ```
 board "ABC123" nodes [sticky "Hello" {}] {}..
 ```
 
-### pages
-
-Attaches a list of `page` records to the board.
-
-```
-board "ABC123" pages [
-  page "Intro" nodes [] {},
-  page "Flow" nodes [] {}
-] {}..
-```
-
-### page
-
-A single page on the board. The first argument is the page name.
-
-```
-page "Intro" nodes [sticky "Hello" {}] {}
-```
-
 ### nodes
 
-Attaches a list of node records to a page (or directly to `board` under
-the single-page shorthand).
+Attaches a list of node records to the board.
 
 ```
-page "Flow" nodes [
+board "ABC123" nodes [
   sticky "Kickoff" {},
   ellipse "Decision" {}
-] {}
+] {}..
 ```
 
 ### sticky
@@ -152,7 +124,7 @@ connector's label string — pass `""` for an unlabeled connector.
 
 Endpoints are specified with the `from` and `to` property setters. Each
 accepts a **node identifier** — matched against the primary string of
-another node on the same page — or a list of identifiers, following the
+another node on the board — or a list of identifiers, following the
 same convention as `edge` in L0169.
 
 | Node function | Identifier used by `from` / `to` |
@@ -164,17 +136,17 @@ same convention as `edge` in L0169.
 
 Identifier matching is by exact string. When a list is supplied, the
 connector fans out to every matching node. The special value `"*"` means
-all nodes on the page except those specified on the opposite endpoint
+all nodes on the board except those specified on the opposite endpoint
 (same semantics as L0169's `edge`).
 
 Basic connector between two sticky notes:
 
 ```
-page "Flow" nodes [
+board "ABC123" nodes [
   sticky "A" x 0 y 0 {},
   sticky "B" x 200 y 0 {},
   connector "leads to" from "A" to "B" {}
-] {}
+] {}..
 ```
 
 Fan-out to multiple targets:
@@ -183,7 +155,7 @@ Fan-out to multiple targets:
 connector "feeds" from "Hub" to ["A", "B", "C"] {}
 ```
 
-Wildcard — connect `Hub` to every other node on the page:
+Wildcard — connect `Hub` to every other node on the board:
 
 ```
 connector "" from "Hub" to "*" {}
@@ -319,7 +291,7 @@ text "Heading" color "#111111" {}
 ### from
 
 Sets the source node(s) for a connector. Matched against the primary
-string of a node on the same page. Accepts a single string or a list of
+string of a node on the board. Accepts a single string or a list of
 strings. The special value `"*"` means all nodes except those specified
 in `to`.
 
@@ -332,7 +304,7 @@ from "*"
 ### to
 
 Sets the target node(s) for a connector. Matched against the primary
-string of a node on the same page. Accepts a single string or a list of
+string of a node on the board. Accepts a single string or a list of
 strings. The special value `"*"` means all nodes except those specified
 in `from`.
 
@@ -345,11 +317,9 @@ to "*"
 ## Program Example
 
 ```
-board "https://www.figma.com/board/ABC123/My-Board" pages [
-  page "Page 1" nodes [
-    sticky "Hello" {}
-    ellipse "Center" x 100 y 100 {}
-    connector "link" {}
-  ] {}
+board "https://www.figma.com/board/ABC123/My-Board" nodes [
+  sticky "Hello" {}
+  ellipse "Center" x 100 y 100 {}
+  connector "link" from "Hello" to "Center" {}
 ] {}..
 ```

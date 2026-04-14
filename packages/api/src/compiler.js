@@ -54,8 +54,6 @@ function visitArity1(node, options, resume) {
 
 export class Checker extends BasisChecker {
   BOARD(node, options, resume) { visitArity2.call(this, node, options, resume); }
-  PAGES(node, options, resume) { visitArity2.call(this, node, options, resume); }
-  PAGE(node, options, resume) { visitArity2.call(this, node, options, resume); }
   NODES(node, options, resume) { visitArity2.call(this, node, options, resume); }
 }
 
@@ -69,29 +67,7 @@ export class Transformer extends BasisTransformer {
   BOARD(node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
       this.visit(node.elts[1], options, (e1, v1) => {
-        const rec = { ...v1 };
-        if (!rec.pages && rec.nodes) {
-          const { nodes, ...rest } = rec;
-          resume([], { ...rest, pages: [{ type: "page", nodes }], type: "board", fileKey: parseFileKey(v0) });
-          return;
-        }
-        resume([], { ...rec, type: "board", fileKey: parseFileKey(v0) });
-      });
-    });
-  }
-
-  PAGES(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, pages: v0 });
-      });
-    });
-  }
-
-  PAGE(node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, type: "page", name: v0 });
+        resume([], { ...v1, type: "board", fileKey: parseFileKey(v0) });
       });
     });
   }

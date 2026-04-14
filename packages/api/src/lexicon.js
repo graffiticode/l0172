@@ -44,8 +44,6 @@ const toMethodName = (surface) => surface.replace(/-/g, "_").toUpperCase();
 
 export const lexicon = {
   "board": fn2("BOARD"),
-  "pages": fn2("PAGES"),
-  "page": fn2("PAGE"),
   "nodes": fn2("NODES"),
   ...Object.fromEntries(NODE_TYPES.map((n) => [n, fn2(toMethodName(n))])),
   ...Object.fromEntries(Object.keys(SHAPE_TYPES).map((n) => [n, fn2(toMethodName(n))])),

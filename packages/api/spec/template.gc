@@ -1,5 +1,3 @@
-board "ABC123" pages [
-  page "Page 1" nodes [
-    sticky "Hello" {}
-  ] {}
+board "ABC123" nodes [
+  sticky "Hello" {}
 ] {}..
