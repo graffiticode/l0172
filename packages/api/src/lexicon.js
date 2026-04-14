@@ -2,6 +2,11 @@
 const fn1 = (name) => ({ tk: 1, name, cls: "function", length: 1, arity: 1 });
 const fn2 = (name) => ({ tk: 1, name, cls: "function", length: 2, arity: 2 });
 
+// Surface names mirror Figma's ShapeWithTextNode.shapeType enum (lower
+// kebab-case ↔ SCREAMING_SNAKE_CASE). Only shapes Figma actually renders
+// are exposed here — dropping flowchart aliases (process, decision,
+// input-output, terminator, document, heart, cloud, logic-or) that Figma
+// would silently render as an ellipse.
 const SHAPE_TYPES = {
   "square": "SQUARE",
   "ellipse": "ELLIPSE",
@@ -15,20 +20,24 @@ const SHAPE_TYPES = {
   "eng-queue": "ENG_QUEUE",
   "eng-file": "ENG_FILE",
   "eng-folder": "ENG_FOLDER",
+  "trapezoid": "TRAPEZOID",
   "predefined-process": "PREDEFINED_PROCESS",
   "shield": "SHIELD",
-  "document": "DOCUMENT",
-  "process": "PROCESS",
-  "decision": "DECISION",
-  "input-output": "INPUT_OUTPUT",
-  "terminator": "TERMINATOR",
-  "summing-junction": "SUMMING_JUNCTION",
-  "logic-or": "LOGIC_OR",
-  "internal-storage": "INTERNAL_STORAGE",
-  "cloud": "CLOUD",
-  "heart": "HEART",
-  "trapezoid": "TRAPEZOID",
+  "document-single": "DOCUMENT_SINGLE",
+  "document-multiple": "DOCUMENT_MULTIPLE",
+  "manual-input": "MANUAL_INPUT",
+  "hexagon": "HEXAGON",
+  "chevron": "CHEVRON",
+  "pentagon": "PENTAGON",
+  "octagon": "OCTAGON",
   "star": "STAR",
+  "plus": "PLUS",
+  "arrow-left": "ARROW_LEFT",
+  "arrow-right": "ARROW_RIGHT",
+  "summing-junction": "SUMMING_JUNCTION",
+  "or": "OR",
+  "speech-bubble": "SPEECH_BUBBLE",
+  "internal-storage": "INTERNAL_STORAGE",
 };
 
 const NODE_TYPES = ["sticky", "text", "connector", "section", "stamp"];

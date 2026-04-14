@@ -32,20 +32,24 @@ semantics and base library can be found here:
 | `eng-queue` | `<string record: record>` | Queue symbol |
 | `eng-file` | `<string record: record>` | File symbol |
 | `eng-folder` | `<string record: record>` | Folder symbol |
+| `trapezoid` | `<string record: record>` | Trapezoid |
 | `predefined-process` | `<string record: record>` | Subroutine box with side bars |
 | `shield` | `<string record: record>` | Shield outline |
-| `document` | `<string record: record>` | Document with wavy bottom |
-| `process` | `<string record: record>` | Flowchart process box |
-| `decision` | `<string record: record>` | Flowchart decision diamond |
-| `input-output` | `<string record: record>` | Flowchart I/O parallelogram |
-| `terminator` | `<string record: record>` | Flowchart start/end pill |
-| `summing-junction` | `<string record: record>` | Circle with cross |
-| `logic-or` | `<string record: record>` | Circle with vertical bar |
-| `internal-storage` | `<string record: record>` | Rectangle with inset borders |
-| `cloud` | `<string record: record>` | Cloud outline |
-| `heart` | `<string record: record>` | Heart |
-| `trapezoid` | `<string record: record>` | Trapezoid |
+| `document-single` | `<string record: record>` | Document with wavy bottom |
+| `document-multiple` | `<string record: record>` | Stack of documents |
+| `manual-input` | `<string record: record>` | Flowchart manual-input quadrilateral |
+| `hexagon` | `<string record: record>` | Regular hexagon |
+| `chevron` | `<string record: record>` | Chevron / arrow block |
+| `pentagon` | `<string record: record>` | Regular pentagon |
+| `octagon` | `<string record: record>` | Regular octagon |
 | `star` | `<string record: record>` | Five-point star |
+| `plus` | `<string record: record>` | Plus / cross |
+| `arrow-left` | `<string record: record>` | Arrow pointing left |
+| `arrow-right` | `<string record: record>` | Arrow pointing right |
+| `summing-junction` | `<string record: record>` | Circle with cross |
+| `or` | `<string record: record>` | Circle with vertical bar |
+| `speech-bubble` | `<string record: record>` | Speech bubble |
+| `internal-storage` | `<string record: record>` | Rectangle with inset borders |
 | `x` | `<number record: record>` | Horizontal position in board units |
 | `y` | `<number record: record>` | Vertical position in board units |
 | `width` | `<number record: record>` | Width in board units |
@@ -211,16 +215,19 @@ differ only in the shape they render.
 ```
 ellipse "Start" x 0 y 0 fill "#ffcc00" {}
 diamond "Decision?" x 200 y 0 {}
-process "Compute" x 400 y 0 {}
-cloud "External" x 600 y 0 {}
+predefined-process "Compute" x 400 y 0 {}
+speech-bubble "Aside" x 600 y 0 {}
 ```
 
-Available shape functions: `square`, `ellipse`, `rounded-rectangle`,
-`diamond`, `triangle-up`, `triangle-down`, `parallelogram-right`,
-`parallelogram-left`, `eng-database`, `eng-queue`, `eng-file`,
-`eng-folder`, `predefined-process`, `shield`, `document`, `process`,
-`decision`, `input-output`, `terminator`, `summing-junction`, `logic-or`,
-`internal-storage`, `cloud`, `heart`, `trapezoid`, `star`.
+Shape surface names mirror Figma's `ShapeWithTextNode.shapeType` enum in
+lower kebab-case. Available shape functions: `square`, `ellipse`,
+`rounded-rectangle`, `diamond`, `triangle-up`, `triangle-down`,
+`parallelogram-right`, `parallelogram-left`, `eng-database`, `eng-queue`,
+`eng-file`, `eng-folder`, `trapezoid`, `predefined-process`, `shield`,
+`document-single`, `document-multiple`, `manual-input`, `hexagon`,
+`chevron`, `pentagon`, `octagon`, `star`, `plus`, `arrow-left`,
+`arrow-right`, `summing-junction`, `or`, `speech-bubble`,
+`internal-storage`.
 
 ### x
 

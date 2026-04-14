@@ -235,9 +235,8 @@ export const lexicon = {
     "tk": 1,
     "name": "OR",
     "cls": "function",
-    "arity": 2,
-    "type": "<boolean boolean: boolean>",
-    "description": "Returns true if at least one of the two values is true."
+    "length": 2,
+    "arity": 2
   },
   "and": {
     "tk": 1,
@@ -355,20 +354,6 @@ export const lexicon = {
   "board": {
     "tk": 1,
     "name": "BOARD",
-    "cls": "function",
-    "length": 2,
-    "arity": 2
-  },
-  "pages": {
-    "tk": 1,
-    "name": "PAGES",
-    "cls": "function",
-    "length": 2,
-    "arity": 2
-  },
-  "page": {
-    "tk": 1,
-    "name": "PAGE",
     "cls": "function",
     "length": 2,
     "arity": 2
@@ -499,6 +484,13 @@ export const lexicon = {
     "length": 2,
     "arity": 2
   },
+  "trapezoid": {
+    "tk": 1,
+    "name": "TRAPEZOID",
+    "cls": "function",
+    "length": 2,
+    "arity": 2
+  },
   "predefined-process": {
     "tk": 1,
     "name": "PREDEFINED_PROCESS",
@@ -513,37 +505,79 @@ export const lexicon = {
     "length": 2,
     "arity": 2
   },
-  "document": {
+  "document-single": {
     "tk": 1,
-    "name": "DOCUMENT",
+    "name": "DOCUMENT_SINGLE",
     "cls": "function",
     "length": 2,
     "arity": 2
   },
-  "process": {
+  "document-multiple": {
     "tk": 1,
-    "name": "PROCESS",
+    "name": "DOCUMENT_MULTIPLE",
     "cls": "function",
     "length": 2,
     "arity": 2
   },
-  "decision": {
+  "manual-input": {
     "tk": 1,
-    "name": "DECISION",
+    "name": "MANUAL_INPUT",
     "cls": "function",
     "length": 2,
     "arity": 2
   },
-  "input-output": {
+  "hexagon": {
     "tk": 1,
-    "name": "INPUT_OUTPUT",
+    "name": "HEXAGON",
     "cls": "function",
     "length": 2,
     "arity": 2
   },
-  "terminator": {
+  "chevron": {
     "tk": 1,
-    "name": "TERMINATOR",
+    "name": "CHEVRON",
+    "cls": "function",
+    "length": 2,
+    "arity": 2
+  },
+  "pentagon": {
+    "tk": 1,
+    "name": "PENTAGON",
+    "cls": "function",
+    "length": 2,
+    "arity": 2
+  },
+  "octagon": {
+    "tk": 1,
+    "name": "OCTAGON",
+    "cls": "function",
+    "length": 2,
+    "arity": 2
+  },
+  "star": {
+    "tk": 1,
+    "name": "STAR",
+    "cls": "function",
+    "length": 2,
+    "arity": 2
+  },
+  "plus": {
+    "tk": 1,
+    "name": "PLUS",
+    "cls": "function",
+    "length": 2,
+    "arity": 2
+  },
+  "arrow-left": {
+    "tk": 1,
+    "name": "ARROW_LEFT",
+    "cls": "function",
+    "length": 2,
+    "arity": 2
+  },
+  "arrow-right": {
+    "tk": 1,
+    "name": "ARROW_RIGHT",
     "cls": "function",
     "length": 2,
     "arity": 2
@@ -555,9 +589,9 @@ export const lexicon = {
     "length": 2,
     "arity": 2
   },
-  "logic-or": {
+  "speech-bubble": {
     "tk": 1,
-    "name": "LOGIC_OR",
+    "name": "SPEECH_BUBBLE",
     "cls": "function",
     "length": 2,
     "arity": 2
@@ -565,34 +599,6 @@ export const lexicon = {
   "internal-storage": {
     "tk": 1,
     "name": "INTERNAL_STORAGE",
-    "cls": "function",
-    "length": 2,
-    "arity": 2
-  },
-  "cloud": {
-    "tk": 1,
-    "name": "CLOUD",
-    "cls": "function",
-    "length": 2,
-    "arity": 2
-  },
-  "heart": {
-    "tk": 1,
-    "name": "HEART",
-    "cls": "function",
-    "length": 2,
-    "arity": 2
-  },
-  "trapezoid": {
-    "tk": 1,
-    "name": "TRAPEZOID",
-    "cls": "function",
-    "length": 2,
-    "arity": 2
-  },
-  "star": {
-    "tk": 1,
-    "name": "STAR",
     "cls": "function",
     "length": 2,
     "arity": 2
@@ -663,6 +669,20 @@ export const lexicon = {
   "color": {
     "tk": 1,
     "name": "COLOR",
+    "cls": "function",
+    "length": 2,
+    "arity": 2
+  },
+  "from": {
+    "tk": 1,
+    "name": "FROM",
+    "cls": "function",
+    "length": 2,
+    "arity": 2
+  },
+  "to": {
+    "tk": 1,
+    "name": "TO",
     "cls": "function",
     "length": 2,
     "arity": 2

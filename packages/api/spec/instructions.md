@@ -28,12 +28,14 @@ labelled frame at its given size.
 All have type `<string record: record>`. First arg is the shape's text
 content. Emits a FigJam shape-with-text of the given silhouette.
 
+Surface names are lower kebab-case of Figma's `ShapeWithTextNode.shapeType`:
 `square`, `ellipse`, `rounded-rectangle`, `diamond`, `triangle-up`,
 `triangle-down`, `parallelogram-right`, `parallelogram-left`,
-`eng-database`, `eng-queue`, `eng-file`, `eng-folder`,
-`predefined-process`, `shield`, `document`, `process`, `decision`,
-`input-output`, `terminator`, `summing-junction`, `logic-or`,
-`internal-storage`, `cloud`, `heart`, `trapezoid`, `star`.
+`eng-database`, `eng-queue`, `eng-file`, `eng-folder`, `trapezoid`,
+`predefined-process`, `shield`, `document-single`, `document-multiple`,
+`manual-input`, `hexagon`, `chevron`, `pentagon`, `octagon`, `star`,
+`plus`, `arrow-left`, `arrow-right`, `summing-junction`, `or`,
+`speech-bubble`, `internal-storage`.
 
 ## Property setters
 
