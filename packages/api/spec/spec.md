@@ -62,6 +62,9 @@ semantics and base library can be found here:
 | `color` | `<string record: record>` | Generic text/foreground color (hex) |
 | `from` | `<string\|list record: record>` | Source node(s) for a connector |
 | `to` | `<string\|list record: record>` | Target node(s) for a connector |
+| `line-type` | `<string record: record>` | Connector routing: `"straight"` or `"elbowed"` |
+| `from-cap` | `<string record: record>` | Stroke cap at the `from` end of a connector |
+| `to-cap` | `<string record: record>` | Stroke cap at the `to` end of a connector |
 
 All functions in this dialect are arity 2, take their property record as
 the final argument, and return a record. Use `{}` as a terminating empty
@@ -82,6 +85,8 @@ below lists which properties are honored by the renderer.
 | `color`       |   —    |  ✓   |   —   |    —    |   —   |     —     |
 | `label`       |   —    |  —   |   —   |    —    |   —   |     ✓     |
 | `from`, `to`  |   —    |  —   |   —   |    —    |   —   |     ✓     |
+| `line-type`   |   —    |  —   |   —   |    —    |   —   |     ✓     |
+| `from-cap`, `to-cap` | — | — |  —   |    —    |   —   |     ✓     |
 
 ### board
 
@@ -336,6 +341,28 @@ in `from`.
 to "Foo"
 to ["Foo", "Bar"]
 to "*"
+```
+
+### line-type
+
+Sets the connector's routing style. Values: `"straight"` or `"elbowed"`.
+Maps to Figma's `connectorLineType`.
+
+```
+connector "" from "A" to "B" line-type "elbowed" {}
+```
+
+### from-cap / to-cap
+
+Sets the stroke cap at the `from` or `to` end of a connector. Values
+are the lower-kebab-case form of Figma's `ConnectorStrokeCap` enum:
+`"none"`, `"arrow-lines"`, `"arrow-equilateral"`, `"triangle-filled"`,
+`"circle-filled"`, `"diamond-filled"`. Default is `none` on the from
+end and an arrow on the to end. Set both to an arrow for a
+bidirectional connector.
+
+```
+connector "syncs" from "A" to "B" from-cap "arrow-lines" to-cap "arrow-lines" {}
 ```
 
 ## Program Example

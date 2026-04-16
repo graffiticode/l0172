@@ -144,3 +144,16 @@
 98. Create a roadmap board with three sections "Q1", "Q2", "Q3", each containing two sticky milestones, with arrows connecting milestones across quarters.
 99. Create a retrospective board with three sections "Went Well", "To Improve", "Action Items", each filled with pastel colors and containing three sticky notes styled with different fills.
 100. Create a fully featured board with a title text, a section "System", containing styled flowchart shapes (rounded-rectangle, predefined-process, diamond, rounded-rectangle) connected with labeled "yes"/"no" connectors, a stamp "like" for approval, and a side section "Notes" with yellow sticky notes.
+
+## Category 15: Connectors — Line Types and Caps (101–110)
+
+101. Create a board with two sticky notes connected by an elbowed connector.
+102. Create a board with two ellipses connected by a straight connector labeled "flows to".
+103. Create a board with a bidirectional connector between two stickies "Client" and "Server" using arrow-lines caps on both ends.
+104. Create a board with a connector from "A" to "B" with no arrow on either end (from-cap "none", to-cap "none").
+105. Create a board with a connector from "Source" to "Sink" using a triangle-filled to-cap.
+106. Create a board with a connector from "A" to "B" using an arrow-equilateral to-cap and elbowed routing.
+107. Create a board with three stickies connected in a cycle by bidirectional connectors.
+108. Create a board with a diamond "Review?" connected to a rounded-rectangle "Approved" with a straight, green-stroked connector using an arrow-equilateral to-cap.
+109. Create a board showing two microservices "API" and "DB" linked by a bidirectional elbowed connector labeled "rpc" with stroke-width 2.
+110. Create a flowchart using elbowed connectors between a rounded-rectangle "Start", a diamond "Valid?", and two rounded-rectangle outcomes, each with triangle-filled to-caps.

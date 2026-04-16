@@ -22,6 +22,9 @@ const PROP_SETTERS = {
   COLOR: "color",
   FROM: "from",
   TO: "to",
+  LINE_TYPE: "lineType",
+  FROM_CAP: "fromCap",
+  TO_CAP: "toCap",
 };
 
 const NODE_PRIMARY_FIELD = {
