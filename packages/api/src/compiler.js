@@ -26,6 +26,8 @@ const PROP_SETTERS = {
   LINE_TYPE: "lineType",
   FROM_CAP: "fromCap",
   TO_CAP: "toCap",
+  FROM_SIDE: "fromSide",
+  TO_SIDE: "toSide",
 };
 
 const FONT_SIZE_ALIASES = {

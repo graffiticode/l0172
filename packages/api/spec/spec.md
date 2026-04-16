@@ -65,6 +65,8 @@ semantics and base library can be found here:
 | `line-type` | `<string record: record>` | Connector routing: `"straight"` or `"elbowed"` |
 | `from-cap` | `<string record: record>` | Stroke cap at the `from` end of a connector |
 | `to-cap` | `<string record: record>` | Stroke cap at the `to` end of a connector |
+| `from-side` | `<string record: record>` | Side of the `from` node the connector attaches to |
+| `to-side` | `<string record: record>` | Side of the `to` node the connector attaches to |
 
 All functions in this dialect are arity 2, take their property record as
 the final argument, and return a record. Use `{}` as a terminating empty
@@ -87,6 +89,7 @@ below lists which properties are honored by the renderer.
 | `from`, `to`  |   —    |  —   |   —   |    —    |   —   |     ✓     |
 | `line-type`   |   —    |  —   |   —   |    —    |   —   |     ✓     |
 | `from-cap`, `to-cap` | — | — |  —   |    —    |   —   |     ✓     |
+| `from-side`, `to-side` | — | — | —  |    —    |   —   |     ✓     |
 
 ### board
 
@@ -374,6 +377,23 @@ bidirectional connector.
 
 ```
 connector "syncs" from "A" to "B" from-cap "arrow-lines" to-cap "arrow-lines" {}
+```
+
+### from-side / to-side
+
+Sets which side of the `from` or `to` node the connector attaches to.
+Values are the lower-kebab-case form of Figma's `ConnectorMagnet` enum:
+`"auto"`, `"top"`, `"bottom"`, `"left"`, `"right"`, `"center"`. Default
+is `"auto"`, which picks a side based on the relative positions of the
+two nodes.
+
+Because `auto` considers only node positions (not other connectors),
+two connectors between the same pair of nodes will stack on top of
+each other. Set explicit sides to separate them:
+
+```
+connector "primary"   from "A" to "B" from-side "right"  to-side "left" {}
+connector "secondary" from "A" to "B" from-side "bottom" to-side "top"  {}
 ```
 
 ## Program Example

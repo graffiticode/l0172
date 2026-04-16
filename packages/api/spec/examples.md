@@ -170,3 +170,16 @@
 118. Create a board where an eng-database id "users-db" labeled "Users" is the target of connectors from three service stickies.
 119. Create a board with a wildcard connector from "hub" (labeled "Coordinator") to every other node.
 120. Create a board with two sections where each contains a shape with a distinct id ("phase1-entry", "phase2-entry") both labeled "Entry", with a connector linking them by id.
+
+## Category 17: Connector Side Attachment (121–130)
+
+121. Create a board with a connector from "A" to "B" that attaches to the right side of "A" and the left side of "B".
+122. Create a board with two stickies "Top" and "Bottom" connected by a connector that leaves the bottom side of "Top" and enters the top side of "Bottom".
+123. Create a board with two connectors between stickies "Client" and "Server" — the first attaching right-to-left, the second attaching bottom-to-top so they don't overlap.
+124. Create a board with three ellipses "A", "B", "C" where connectors from "A" exit its right side to "B" and its bottom side to "C".
+125. Create a board with a diamond "Decide?" whose "yes" connector exits the right side and "no" connector exits the bottom side.
+126. Create a board with an eng-database "DB" receiving three connectors on its left side from three service stickies.
+127. Create a board with a bidirectional connector between "A" and "B" that attaches to the top side of both nodes.
+128. Create a board with a connector from "Hub" to "Spoke" that attaches at the center of "Hub" and the left side of "Spoke".
+129. Create a board with a cycle of three connectors between stickies "X", "Y", "Z" where each connector specifies explicit from-side and to-side values to prevent overlap.
+130. Create a flowchart where elbowed connectors exit the bottom side of each step and enter the top side of the next step.
