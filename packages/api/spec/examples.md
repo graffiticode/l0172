@@ -157,3 +157,16 @@
 108. Create a board with a diamond "Review?" connected to a rounded-rectangle "Approved" with a straight, green-stroked connector using an arrow-equilateral to-cap.
 109. Create a board showing two microservices "API" and "DB" linked by a bidirectional elbowed connector labeled "rpc" with stroke-width 2.
 110. Create a flowchart using elbowed connectors between a rounded-rectangle "Start", a diamond "Valid?", and two rounded-rectangle outcomes, each with triangle-filled to-caps.
+
+## Category 16: Ids and Labels (111–120)
+
+111. Create a board with two sticky notes that share the display text "Review" but have distinct ids "review-design" and "review-copy", and a connector from "review-design" to "review-copy".
+112. Create a board with an ellipse whose id is "start" but whose label is "Begin Here".
+113. Create a board with three stickies ids "s1", "s2", "s3" all labeled "Step" and connected in order.
+114. Create a board with two diamond shapes ids "d1" and "d2" labeled "Approve?" and "Reject?" connected by a labeled "then" connector.
+115. Create a board where the connector from "api-node" to "db-node" is labeled "queries", with nodes displayed as "API" and "Database".
+116. Create a board with ids "left" and "right" on two stickies whose displayed text is "👈" and "👉", connected both directions.
+117. Create a board with five rounded-rectangles ids "stage-1" through "stage-5" labeled "Plan", "Design", "Build", "Test", "Ship", connected in sequence with elbowed connectors.
+118. Create a board where an eng-database id "users-db" labeled "Users" is the target of connectors from three service stickies.
+119. Create a board with a wildcard connector from "hub" (labeled "Coordinator") to every other node.
+120. Create a board with two sections where each contains a shape with a distinct id ("phase1-entry", "phase2-entry") both labeled "Entry", with a connector linking them by id.

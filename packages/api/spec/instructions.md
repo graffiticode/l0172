@@ -14,8 +14,16 @@ flat list of nodes. Types are written in Graffiticode lambda-type syntax:
 
 ## Node-type functions
 
-All have type `<string record: record>`. First arg is the node's primary
-string (text / label / name / stamp).
+All have type `<string record: record>`.
+
+- `sticky`, `text`, and shape functions: first arg is the node's **id**
+  (unique, addressable key used by connector `from`/`to`) and doubles as
+  the default displayed text. Use `label "..."` to override the display
+  text while keeping the id.
+- `section`: first arg is the section's name.
+- `stamp`: first arg is the reaction variant (`"like"`, `"love"`, …).
+- `connector`: first arg is the connector's label. `label "..."`
+  overrides it.
 
 `sticky`, `text`, `connector`, `section`, `stamp`.
 
@@ -25,8 +33,9 @@ labelled frame at its given size.
 
 ## Shape functions
 
-All have type `<string record: record>`. First arg is the shape's text
-content. Emits a FigJam shape-with-text of the given silhouette.
+All have type `<string record: record>`. First arg is the shape's **id**
+(addressable; defaults to the displayed text). `label "..."` overrides
+the displayed text.
 
 Surface names are lower kebab-case of Figma's `ShapeWithTextNode.shapeType`:
 `square`, `ellipse`, `rounded-rectangle`, `diamond`, `triangle-up`,
@@ -47,8 +56,10 @@ Attach a field to the wrapped record.
 | `fill`, `stroke`, `label`, `color`, `from`, `to` | `<string record: record>` |
 
 `opacity` is on a 0–100 scale: `0` fully transparent, `100` fully opaque
-(e.g. `opacity 50` is half-transparent). `from`/`to` reference other nodes
-by their primary string; the special value `"*"` means all other nodes.
+(e.g. `opacity 50` is half-transparent). `from`/`to` reference other
+nodes by their **id** (first argument); the special value `"*"` means
+all other nodes. `label` sets the displayed text on sticky/text/shape
+nodes, or the connector label.
 
 ## Layout sizing
 

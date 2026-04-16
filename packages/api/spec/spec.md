@@ -83,7 +83,7 @@ below lists which properties are honored by the renderer.
 | `stroke`, `stroke-width` | — | — | ✓ |   —    |   —   |     ✓     |
 | `opacity`     |   ✓    |  ✓   |   ✓   |    ✓    |   ✓   |     ✓     |
 | `color`       |   —    |  ✓   |   —   |    —    |   —   |     —     |
-| `label`       |   —    |  —   |   —   |    —    |   —   |     ✓     |
+| `label`       |   ✓    |  ✓   |   ✓   |    —    |   —   |     ✓     |
 | `from`, `to`  |   —    |  —   |   —   |    —    |   —   |     ✓     |
 | `line-type`   |   —    |  —   |   —   |    —    |   —   |     ✓     |
 | `from-cap`, `to-cap` | — | — |  —   |    —    |   —   |     ✓     |
@@ -112,18 +112,23 @@ board "ABC123" nodes [
 
 ### sticky
 
-A FigJam sticky note. The first argument is the sticky's text content.
+A FigJam sticky note. The first argument is the sticky's **id** and
+default text content. Pass `label "..."` to override the displayed
+text while keeping the id as the addressable key.
 
 ```
 sticky "Kickoff" x 0 y 0 {}
+sticky "kickoff-1" label "Kickoff" x 0 y 0 {}
 ```
 
 ### text
 
-A free-floating text node. The first argument is the displayed text.
+A free-floating text node. The first argument is the text node's **id**
+and default displayed text. `label "..."` overrides the displayed text.
 
 ```
 text "Section heading" x 0 y 0 {}
+text "heading-1" label "Section heading" x 0 y 0 {}
 ```
 
 ### connector
@@ -133,15 +138,15 @@ connector's label string — pass `""` for an unlabeled connector. An
 explicit `label "..."` property overrides the first argument.
 
 Endpoints are specified with the `from` and `to` property setters. Each
-accepts a **node identifier** — matched against the primary string of
+accepts a **node identifier** — matched against the addressable key of
 another node on the board — or a list of identifiers, following the
 same convention as `edge` in L0169.
 
 | Node function | Identifier used by `from` / `to` |
 | :------------ | :------------------------------- |
-| `sticky`, `text` | the node's text (first argument) |
+| `sticky`, `text` | the node's **id** (first argument) |
 | `section` | the section's name (first argument) |
-| any shape function (`ellipse`, `diamond`, …) | the shape's text (first argument) |
+| any shape function (`ellipse`, `diamond`, …) | the shape's **id** (first argument) |
 | `stamp` | the stamp's variant (first argument) |
 
 Identifier matching is by exact string. When a list is supplied, the
@@ -213,13 +218,15 @@ stamp "like" x 100 y 100 {}
 
 ### Shape functions
 
-Each shape function takes the shape's text content as its first argument
-(use `""` for an unlabeled shape) and produces a FigJam shape-with-text of
-the corresponding silhouette. Shape functions share the same signature and
-differ only in the shape they render.
+Each shape function takes the shape's **id** as its first argument (use
+`""` for an unidentified shape). The id doubles as the default displayed
+text; pass `label "..."` to override the displayed text while keeping
+the id as the addressable key. Shape functions share the same signature
+and differ only in the shape they render.
 
 ```
 ellipse "Start" x 0 y 0 fill "#ffcc00" {}
+ellipse "start-1" label "Start" x 0 y 0 {}
 diamond "Decision?" x 200 y 0 {}
 predefined-process "Compute" x 400 y 0 {}
 speech-bubble "Aside" x 600 y 0 {}
@@ -302,11 +309,15 @@ ellipse "Ghost" opacity 50 {}
 
 ### label
 
-Sets a label on the wrapped record. On a connector, this overrides the
-first-argument label.
+Sets the displayed text of the wrapped node. On a sticky, text, or
+shape, `label` overrides the default text (which comes from the id).
+On a connector, `label` overrides the first-argument label. In every
+case the first argument remains the node's addressable id.
 
 ```
-connector "" label "leads to" {}
+sticky "s1" label "Kickoff" {}
+ellipse "start-1" label "Start" {}
+connector "c1" label "leads to" from "s1" to "start-1" {}
 ```
 
 ### color

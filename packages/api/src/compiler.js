@@ -35,6 +35,11 @@ const NODE_PRIMARY_FIELD = {
   stamp: "stamp",
 };
 
+// Text-bearing node types use the first arg as both id (addressable key
+// for connectors) and default text. An explicit text property overrides
+// the text but never the id.
+const TEXT_BEARING_NODES = new Set(["sticky", "text"]);
+
 function parseFileKey(input) {
   if (typeof input !== "string") return input;
   const m = input.match(/figma\.com\/(?:board|design|file)\/([^/?#]+)/);
@@ -123,14 +128,26 @@ for (const surface of NODE_TYPE_NAMES) {
   Checker.prototype[method] = function (node, options, resume) {
     visitArity2.call(this, node, options, resume);
   };
-  Transformer.prototype[method] = function (node, options, resume) {
-    this.visit(node.elts[0], options, (e0, v0) => {
-      this.visit(node.elts[1], options, (e1, v1) => {
-        const primary = v1[field] !== undefined ? v1[field] : v0;
-        resume([], { ...v1, type: surface, [field]: primary });
+  if (TEXT_BEARING_NODES.has(surface)) {
+    Transformer.prototype[method] = function (node, options, resume) {
+      this.visit(node.elts[0], options, (e0, v0) => {
+        this.visit(node.elts[1], options, (e1, v1) => {
+          const { label, ...rest } = v1;
+          const text = label !== undefined ? label : v0;
+          resume([], { ...rest, type: surface, id: v0, text });
+        });
       });
-    });
-  };
+    };
+  } else {
+    Transformer.prototype[method] = function (node, options, resume) {
+      this.visit(node.elts[0], options, (e0, v0) => {
+        this.visit(node.elts[1], options, (e1, v1) => {
+          const primary = v1[field] !== undefined ? v1[field] : v0;
+          resume([], { ...v1, type: surface, [field]: primary });
+        });
+      });
+    };
+  }
 }
 
 // Generate shape-with-text type methods (arity 2).
@@ -142,7 +159,9 @@ for (const [surface, enumName] of Object.entries(SHAPE_TYPE_ENUM)) {
   Transformer.prototype[method] = function (node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
       this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, type: "shape", shapeType: enumName, text: v0 });
+        const { label, ...rest } = v1;
+        const text = label !== undefined ? label : v0;
+        resume([], { ...rest, type: "shape", shapeType: enumName, id: v0, text });
       });
     });
   };
