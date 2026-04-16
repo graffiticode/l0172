@@ -50,6 +50,34 @@ Attach a field to the wrapped record.
 (e.g. `opacity 50` is half-transparent). `from`/`to` reference other nodes
 by their primary string; the special value `"*"` means all other nodes.
 
+## Layout sizing
+
+The renderer takes positions and sizes literally — nothing auto-lays-out.
+Common failure modes to avoid:
+
+- **Sticky notes are ~240×240 at their default size.** Two stickies placed
+  160 units apart will overlap. Space them by at least 260 units
+  horizontally or vertically to leave a small gutter. Titled groups of
+  stickies usually want 280–320 unit spacing.
+- **Sections need room for their contents and their title bar.** A
+  section's header takes ~60 units at the top. Size a section so
+  `width` ≥ (rightmost child x + child width + 40) and `height` ≥
+  (bottommost child y + child height + 80). When in doubt, over-size —
+  a loose section reads better than a cramped one that clips its
+  children.
+- **Wide text and long labels inflate shape/sticky sizes** beyond the
+  defaults. If a sticky contains a multi-word phrase, assume it will
+  occupy closer to 280 units wide.
+- **Shapes-with-text** default to roughly 200×120. Set explicit `width`
+  and `height` when packing several in a row; otherwise they collide.
+- **Connectors are routed on top of whatever is there.** Leave at least
+  60 units of empty space between any two nodes that a connector runs
+  between, so the arrow has somewhere to draw.
+
+When a board contains many nodes, sketch the layout as a grid first: pick
+a cell size (e.g. 300×300) and place each node on a cell origin. Size
+sections to span whole-cell counts.
+
 ## Examples
 
 Rules:
