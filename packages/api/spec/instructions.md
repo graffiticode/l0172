@@ -54,12 +54,15 @@ Attach a field to the wrapped record.
 | :------- | :--- |
 | `x`, `y`, `width`, `height`, `stroke-width`, `opacity` | `<number record: record>` |
 | `fill`, `stroke`, `label`, `color`, `from`, `to` | `<string record: record>` |
+| `font-size` | `<number\|string record: record>` |
 
 `opacity` is on a 0–100 scale: `0` fully transparent, `100` fully opaque
 (e.g. `opacity 50` is half-transparent). `from`/`to` reference other
 nodes by their **id** (first argument); the special value `"*"` means
 all other nodes. `label` sets the displayed text on sticky/text/shape
-nodes, or the connector label.
+nodes, or the connector label. `font-size` accepts a pixel number or
+one of FigJam's aliases — `"small"` (16), `"medium"` (24), `"large"`
+(40), `"extra-large"` (64), `"huge"` (96).
 
 ## Layout sizing
 

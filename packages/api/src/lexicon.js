@@ -45,7 +45,7 @@ const NODE_TYPES = ["sticky", "text", "connector", "section", "stamp"];
 const PROP_SETTERS = [
   "x", "y", "width", "height",
   "fill", "stroke", "stroke-width", "opacity",
-  "label", "color",
+  "label", "color", "font-size",
   "from", "to",
   "line-type", "from-cap", "to-cap",
 ];

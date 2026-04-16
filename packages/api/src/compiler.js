@@ -20,11 +20,20 @@ const PROP_SETTERS = {
   OPACITY: "opacity",
   LABEL: "label",
   COLOR: "color",
+  FONT_SIZE: "fontSize",
   FROM: "from",
   TO: "to",
   LINE_TYPE: "lineType",
   FROM_CAP: "fromCap",
   TO_CAP: "toCap",
+};
+
+const FONT_SIZE_ALIASES = {
+  "small": 16,
+  "medium": 24,
+  "large": 40,
+  "extra-large": 64,
+  "huge": 96,
 };
 
 const NODE_PRIMARY_FIELD = {
@@ -120,6 +129,30 @@ for (const [method, field] of Object.entries(PROP_SETTERS)) {
     });
   };
 }
+
+Checker.prototype.FONT_SIZE = function (node, options, resume) {
+  this.visit(node.elts[0], options, (e0, v0) => {
+    this.visit(node.elts[1], options, (e1, v1) => {
+      let err = [...e0, ...e1];
+      if (v0 && v0.tag === "STR" && !(v0.elts[0] in FONT_SIZE_ALIASES)) {
+        const valid = Object.keys(FONT_SIZE_ALIASES).map((k) => `"${k}"`).join(", ");
+        err = [...err, `Invalid font-size alias "${v0.elts[0]}". Expected ${valid}, or a number.`];
+      }
+      resume(err, node);
+    });
+  });
+};
+
+Transformer.prototype.FONT_SIZE = function (node, options, resume) {
+  this.visit(node.elts[0], options, (e0, v0) => {
+    this.visit(node.elts[1], options, (e1, v1) => {
+      const resolved = typeof v0 === "string" && v0 in FONT_SIZE_ALIASES
+        ? FONT_SIZE_ALIASES[v0]
+        : v0;
+      resume([], { ...v1, fontSize: resolved });
+    });
+  });
+};
 
 // Generate node-type methods (arity 2).
 for (const surface of NODE_TYPE_NAMES) {
