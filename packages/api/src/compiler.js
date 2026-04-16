@@ -123,7 +123,8 @@ for (const surface of NODE_TYPE_NAMES) {
   Transformer.prototype[method] = function (node, options, resume) {
     this.visit(node.elts[0], options, (e0, v0) => {
       this.visit(node.elts[1], options, (e1, v1) => {
-        resume([], { ...v1, type: surface, [field]: v0 });
+        const primary = v1[field] !== undefined ? v1[field] : v0;
+        resume([], { ...v1, type: surface, [field]: primary });
       });
     });
   };

@@ -124,7 +124,8 @@ text "Section heading" x 0 y 0 {}
 ### connector
 
 A connector (line/arrow) between two nodes. The first argument is the
-connector's label string — pass `""` for an unlabeled connector.
+connector's label string — pass `""` for an unlabeled connector. An
+explicit `label "..."` property overrides the first argument.
 
 Endpoints are specified with the `from` and `to` property setters. Each
 accepts a **node identifier** — matched against the primary string of
@@ -296,8 +297,8 @@ ellipse "Ghost" opacity 50 {}
 
 ### label
 
-Sets a label on the wrapped record (e.g. an alternative label on a
-connector).
+Sets a label on the wrapped record. On a connector, this overrides the
+first-argument label.
 
 ```
 connector "" label "leads to" {}
