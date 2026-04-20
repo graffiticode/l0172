@@ -1,0 +1,39 @@
+{
+  "id": "0172",
+  "description": "Authors FigJam board content from natural language. Produces a node list targeted at a specific FigJam file, with stickies, text, 25+ shape types (ellipse, rounded-rectangle, diamond, hexagon, star, arrows, flowchart shapes), connectors between nodes, section containers with nested children, and stamps. Positions and sizes are literal — no auto-layout — so describe the layout on a grid with explicit coordinates. Describe the target board, the nodes with their positions, the connectors, and any section grouping — L0172 emits a program that renders as board content.",
+  "supported_item_types": [
+    "figjam_board"
+  ],
+  "example_prompts": [
+    {
+      "prompt": "Create a FigJam board targeting file ABC123 with two stickies 'Kickoff' and 'Launch' at (0, 0) and (400, 0), and a connector labeled 'then' from Kickoff to Launch.",
+      "produces": "figjam_board",
+      "notes": "Names the target file, explicit coordinates (so stickies don't overlap), and the connector endpoints by id — the minimal complete board with one edge."
+    },
+    {
+      "prompt": "Board https://www.figma.com/board/ABC123/Demo with three ellipses labeled Start, Decide, End laid out horizontally 300 units apart. Connect Start→Decide with a connector labeled 'begin' and Decide→End with a connector labeled 'finish'.",
+      "produces": "figjam_board",
+      "notes": "Uses the full board URL form, spaces nodes by 300 units (enough margin for the default 200-wide shape to avoid collision), and names two distinct connector labels — a clean three-node flow."
+    },
+    {
+      "prompt": "Make a FigJam flowchart with a rounded-rectangle 'Input' at (0, 0), a diamond 'Valid?' at (300, 0), a rounded-rectangle 'Process' at (600, 0), and a rounded-rectangle 'Error' at (300, 200). Connect Input→Valid?, Valid?→Process labeled 'yes', and Valid?→Error labeled 'no'. Target file XYZ.",
+      "produces": "figjam_board",
+      "notes": "Exercises multiple shape types, two-dimensional layout, and branching connectors with yes/no labels — the canonical flowchart pattern."
+    },
+    {
+      "prompt": "Create a section titled 'Phase 1' at position (0, 0) sized 700×400 containing two stickies at (40, 80) and (320, 80), and a section titled 'Phase 2' at (740, 0) sized 700×400 with two stickies inside it. Target file ABC123.",
+      "produces": "figjam_board",
+      "notes": "Names explicit section sizes and in-section coordinates — sticky y=80 clears the ~60-unit section title bar; sticky x=320 leaves room after the 240-wide sticky at x=40."
+    },
+    {
+      "prompt": "Retrospective board: a section 'Went Well' with three green stickies, a section 'To Improve' with three yellow stickies, and a section 'Action Items' with three blue stickies. Lay the sections in a row, each 400 wide and 600 tall, with 40 units between them.",
+      "produces": "figjam_board",
+      "notes": "A domain-recognizable pattern (retrospective) where the translator can infer typical sticky spacing inside each section, but the request still pins down section size and inter-section gap so the layout renders predictably."
+    },
+    {
+      "prompt": "Stakeholder map board with a central ellipse 'Project' at (400, 300), surrounded by four rounded-rectangles (Engineering, Design, Sales, Support) arranged at 12/3/6/9 o'clock positions 300 units from the center. Connect each team to Project with a dashed connector.",
+      "produces": "figjam_board",
+      "notes": "Names a radial layout with cardinal-direction positioning and a hub-and-spoke connector pattern — the translator computes four (x, y) pairs at the 300-unit radius from the center ellipse."
+    }
+  ]
+}
