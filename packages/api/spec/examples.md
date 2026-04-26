@@ -145,7 +145,7 @@
 99. Create a retrospective board with three sections "Went Well", "To Improve", "Action Items", each filled with pastel colors and containing three sticky notes styled with different fills.
 100. Create a fully featured board with a title text, a section "System", containing styled flowchart shapes (rounded-rectangle, predefined-process, diamond, rounded-rectangle) connected with labeled "yes"/"no" connectors, a stamp "like" for approval, and a side section "Notes" with yellow sticky notes.
 
-## Category 15: Connectors — Line Types and Caps (101–110)
+## Category 15: Connectors — Line Types, Caps, and Styles (101–113)
 
 101. Create a board with two sticky notes connected by an elbowed connector.
 102. Create a board with two ellipses connected by a straight connector labeled "flows to".
@@ -157,29 +157,32 @@
 108. Create a board with a diamond "Review?" connected to a rounded-rectangle "Approved" with a straight, green-stroked connector using an arrow-equilateral to-cap.
 109. Create a board showing two microservices "API" and "DB" linked by a bidirectional elbowed connector labeled "rpc" with stroke-width 2.
 110. Create a flowchart using elbowed connectors between a rounded-rectangle "Start", a diamond "Valid?", and two rounded-rectangle outcomes, each with triangle-filled to-caps.
+111. Create a board with two sticky notes connected by a dashed connector labeled "next".
+112. Create a board with two ellipses "Plan" and "Ship" linked by a thick, red, dashed elbowed connector.
+113. Create a board with a thin connector from "Source" to "Sink" using stroke-width "thin" and a triangle-filled to-cap.
 
-## Category 16: Ids and Labels (111–120)
+## Category 16: Ids and Labels (114–123)
 
-111. Create a board with two sticky notes that share the display text "Review" but have distinct ids "review-design" and "review-copy", and a connector from "review-design" to "review-copy".
-112. Create a board with an ellipse whose id is "start" but whose label is "Begin Here".
-113. Create a board with three stickies ids "s1", "s2", "s3" all labeled "Step" and connected in order.
-114. Create a board with two diamond shapes ids "d1" and "d2" labeled "Approve?" and "Reject?" connected by a labeled "then" connector.
-115. Create a board where the connector from "api-node" to "db-node" is labeled "queries", with nodes displayed as "API" and "Database".
-116. Create a board with ids "left" and "right" on two stickies whose displayed text is "👈" and "👉", connected both directions.
-117. Create a board with five rounded-rectangles ids "stage-1" through "stage-5" labeled "Plan", "Design", "Build", "Test", "Ship", connected in sequence with elbowed connectors.
-118. Create a board where an eng-database id "users-db" labeled "Users" is the target of connectors from three service stickies.
-119. Create a board with a wildcard connector from "hub" (labeled "Coordinator") to every other node.
-120. Create a board with two sections where each contains a shape with a distinct id ("phase1-entry", "phase2-entry") both labeled "Entry", with a connector linking them by id.
+114. Create a board with two sticky notes that share the display text "Review" but have distinct ids "review-design" and "review-copy", and a connector from "review-design" to "review-copy".
+115. Create a board with an ellipse whose id is "start" but whose label is "Begin Here".
+116. Create a board with three stickies ids "s1", "s2", "s3" all labeled "Step" and connected in order.
+117. Create a board with two diamond shapes ids "d1" and "d2" labeled "Approve?" and "Reject?" connected by a labeled "then" connector.
+118. Create a board where the connector from "api-node" to "db-node" is labeled "queries", with nodes displayed as "API" and "Database".
+119. Create a board with ids "left" and "right" on two stickies whose displayed text is "👈" and "👉", connected both directions.
+120. Create a board with five rounded-rectangles ids "stage-1" through "stage-5" labeled "Plan", "Design", "Build", "Test", "Ship", connected in sequence with elbowed connectors.
+121. Create a board where an eng-database id "users-db" labeled "Users" is the target of connectors from three service stickies.
+122. Create a board with a wildcard connector from "hub" (labeled "Coordinator") to every other node.
+123. Create a board with two sections where each contains a shape with a distinct id ("phase1-entry", "phase2-entry") both labeled "Entry", with a connector linking them by id.
 
-## Category 17: Connector Side Attachment (121–130)
+## Category 17: Connector Side Attachment (124–133)
 
-121. Create a board with a connector from "A" to "B" that attaches to the right side of "A" and the left side of "B".
-122. Create a board with two stickies "Top" and "Bottom" connected by a connector that leaves the bottom side of "Top" and enters the top side of "Bottom".
-123. Create a board with two connectors between stickies "Client" and "Server" — the first attaching right-to-left, the second attaching bottom-to-top so they don't overlap.
-124. Create a board with three ellipses "A", "B", "C" where connectors from "A" exit its right side to "B" and its bottom side to "C".
-125. Create a board with a diamond "Decide?" whose "yes" connector exits the right side and "no" connector exits the bottom side.
-126. Create a board with an eng-database "DB" receiving three connectors on its left side from three service stickies.
-127. Create a board with a bidirectional connector between "A" and "B" that attaches to the top side of both nodes.
-128. Create a board with a connector from "Hub" to "Spoke" that attaches at the center of "Hub" and the left side of "Spoke".
-129. Create a board with a cycle of three connectors between stickies "X", "Y", "Z" where each connector specifies explicit from-side and to-side values to prevent overlap.
-130. Create a flowchart where elbowed connectors exit the bottom side of each step and enter the top side of the next step.
+124. Create a board with a connector from "A" to "B" that attaches to the right side of "A" and the left side of "B".
+125. Create a board with two stickies "Top" and "Bottom" connected by a connector that leaves the bottom side of "Top" and enters the top side of "Bottom".
+126. Create a board with two connectors between stickies "Client" and "Server" — the first attaching right-to-left, the second attaching bottom-to-top so they don't overlap.
+127. Create a board with three ellipses "A", "B", "C" where connectors from "A" exit its right side to "B" and its bottom side to "C".
+128. Create a board with a diamond "Decide?" whose "yes" connector exits the right side and "no" connector exits the bottom side.
+129. Create a board with an eng-database "DB" receiving three connectors on its left side from three service stickies.
+130. Create a board with a bidirectional connector between "A" and "B" that attaches to the top side of both nodes.
+131. Create a board with a connector from "Hub" to "Spoke" that attaches at the center of "Hub" and the left side of "Spoke".
+132. Create a board with a cycle of three connectors between stickies "X", "Y", "Z" where each connector specifies explicit from-side and to-side values to prevent overlap.
+133. Create a flowchart where elbowed connectors exit the bottom side of each step and enter the top side of the next step.

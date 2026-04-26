@@ -24,6 +24,7 @@ const PROP_SETTERS = {
   FROM: "from",
   TO: "to",
   LINE_TYPE: "lineType",
+  LINE_STYLE: "lineStyle",
   FROM_CAP: "fromCap",
   TO_CAP: "toCap",
   FROM_SIDE: "fromSide",
@@ -37,6 +38,13 @@ const FONT_SIZE_ALIASES = {
   "extra-large": 64,
   "huge": 96,
 };
+
+const STROKE_WIDTH_ALIASES = {
+  "thin": 2,
+  "thick": 4,
+};
+
+const LINE_STYLES = new Set(["solid", "dashed"]);
 
 const NODE_PRIMARY_FIELD = {
   sticky: "text",
@@ -152,6 +160,43 @@ Transformer.prototype.FONT_SIZE = function (node, options, resume) {
         ? FONT_SIZE_ALIASES[v0]
         : v0;
       resume([], { ...v1, fontSize: resolved });
+    });
+  });
+};
+
+Checker.prototype.STROKE_WIDTH = function (node, options, resume) {
+  this.visit(node.elts[0], options, (e0, v0) => {
+    this.visit(node.elts[1], options, (e1, v1) => {
+      let err = [...e0, ...e1];
+      if (v0 && v0.tag === "STR" && !(v0.elts[0] in STROKE_WIDTH_ALIASES)) {
+        const valid = Object.keys(STROKE_WIDTH_ALIASES).map((k) => `"${k}"`).join(", ");
+        err = [...err, `Invalid stroke-width alias "${v0.elts[0]}". Expected ${valid}, or a number.`];
+      }
+      resume(err, node);
+    });
+  });
+};
+
+Transformer.prototype.STROKE_WIDTH = function (node, options, resume) {
+  this.visit(node.elts[0], options, (e0, v0) => {
+    this.visit(node.elts[1], options, (e1, v1) => {
+      const resolved = typeof v0 === "string" && v0 in STROKE_WIDTH_ALIASES
+        ? STROKE_WIDTH_ALIASES[v0]
+        : v0;
+      resume([], { ...v1, strokeWidth: resolved });
+    });
+  });
+};
+
+Checker.prototype.LINE_STYLE = function (node, options, resume) {
+  this.visit(node.elts[0], options, (e0, v0) => {
+    this.visit(node.elts[1], options, (e1, v1) => {
+      let err = [...e0, ...e1];
+      if (v0 && v0.tag === "STR" && !LINE_STYLES.has(v0.elts[0])) {
+        const valid = [...LINE_STYLES].map((k) => `"${k}"`).join(", ");
+        err = [...err, `Invalid line-style "${v0.elts[0]}". Expected ${valid}.`];
+      }
+      resume(err, node);
     });
   });
 };

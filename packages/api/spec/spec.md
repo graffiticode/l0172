@@ -56,13 +56,14 @@ semantics and base library can be found here:
 | `height` | `<number record: record>` | Height in board units |
 | `fill` | `<string record: record>` | Fill color (hex string) |
 | `stroke` | `<string record: record>` | Stroke color (hex string) |
-| `stroke-width` | `<number record: record>` | Stroke width in board units |
+| `stroke-width` | `<number\|string record: record>` | Stroke width as a number, or one of `"thin"` (2), `"thick"` (4) |
 | `opacity` | `<number record: record>` | Opacity on a 0–100 scale (0 = transparent, 100 = opaque) |
 | `label` | `<string record: record>` | Label text (e.g. on a connector) |
-| `color` | `<string record: record>` | Generic text/foreground color (hex) |
+| `color` | `<string record: record>` | Text/foreground color (hex); on a connector, sets the line color |
 | `from` | `<string\|list record: record>` | Source node(s) for a connector |
 | `to` | `<string\|list record: record>` | Target node(s) for a connector |
 | `line-type` | `<string record: record>` | Connector routing: `"straight"` or `"elbowed"` |
+| `line-style` | `<string record: record>` | Connector line style: `"solid"` or `"dashed"` |
 | `from-cap` | `<string record: record>` | Stroke cap at the `from` end of a connector |
 | `to-cap` | `<string record: record>` | Stroke cap at the `to` end of a connector |
 | `from-side` | `<string record: record>` | Side of the `from` node the connector attaches to |
@@ -84,10 +85,11 @@ below lists which properties are honored by the renderer.
 | `fill`        |   ✓    |  —   |   ✓   |    ✓    |   —   |     —     |
 | `stroke`, `stroke-width` | — | — | ✓ |   —    |   —   |     ✓     |
 | `opacity`     |   ✓    |  ✓   |   ✓   |    ✓    |   ✓   |     ✓     |
-| `color`       |   —    |  ✓   |   —   |    —    |   —   |     —     |
+| `color`       |   —    |  ✓   |   —   |    —    |   —   |     ✓     |
 | `label`       |   ✓    |  ✓   |   ✓   |    —    |   —   |     ✓     |
 | `from`, `to`  |   —    |  —   |   —   |    —    |   —   |     ✓     |
 | `line-type`   |   —    |  —   |   —   |    —    |   —   |     ✓     |
+| `line-style`  |   —    |  —   |   —   |    —    |   —   |     ✓     |
 | `from-cap`, `to-cap` | — | — |  —   |    —    |   —   |     ✓     |
 | `from-side`, `to-side` | — | — | —  |    —    |   —   |     ✓     |
 
@@ -295,10 +297,13 @@ square "Box" stroke "#333333" {}
 
 ### stroke-width
 
-Sets the node's stroke width in board units.
+Sets the node's stroke width in board units. Accepts a number or one of
+the aliases `"thin"` (2) or `"thick"` (4), mirroring FigJam's preset
+weights.
 
 ```
 square "Box" stroke "#333333" stroke-width 2 {}
+connector "" from "A" to "B" stroke-width "thick" {}
 ```
 
 ### opacity
@@ -325,10 +330,14 @@ connector "c1" label "leads to" from "s1" to "start-1" {}
 
 ### color
 
-Sets a generic text/foreground color as a hex string.
+Sets a text/foreground color as a hex string. On a `text` node, this is
+the text color. On a `connector`, this sets the line color (equivalent
+to `stroke` — useful when authoring connectors so the same `color`
+keyword reads naturally as "the connector is red").
 
 ```
 text "Heading" color "#111111" {}
+connector "" from "A" to "B" color "#ef4444" {}
 ```
 
 ### from
@@ -364,6 +373,16 @@ Maps to Figma's `connectorLineType`.
 
 ```
 connector "" from "A" to "B" line-type "elbowed" {}
+```
+
+### line-style
+
+Sets the connector's line style. Values: `"solid"` (default) or
+`"dashed"`. Arrowhead caps remain solid even when the line is dashed —
+this matches Figma's rendering.
+
+```
+connector "" from "A" to "B" line-style "dashed" {}
 ```
 
 ### from-cap / to-cap

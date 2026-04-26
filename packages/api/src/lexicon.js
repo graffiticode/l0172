@@ -47,7 +47,7 @@ const PROP_SETTERS = [
   "fill", "stroke", "stroke-width", "opacity",
   "label", "color", "font-size",
   "from", "to",
-  "line-type", "from-cap", "to-cap",
+  "line-type", "line-style", "from-cap", "to-cap",
   "from-side", "to-side",
 ];
 

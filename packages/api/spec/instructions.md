@@ -52,17 +52,24 @@ Attach a field to the wrapped record.
 
 | Function | Type |
 | :------- | :--- |
-| `x`, `y`, `width`, `height`, `stroke-width`, `opacity` | `<number record: record>` |
-| `fill`, `stroke`, `label`, `color`, `from`, `to` | `<string record: record>` |
-| `font-size` | `<number\|string record: record>` |
+| `x`, `y`, `width`, `height`, `opacity` | `<number record: record>` |
+| `fill`, `stroke`, `label`, `color`, `from`, `to`, `line-style` | `<string record: record>` |
+| `font-size`, `stroke-width` | `<number\|string record: record>` |
 
 `opacity` is on a 0–100 scale: `0` fully transparent, `100` fully opaque
 (e.g. `opacity 50` is half-transparent). `from`/`to` reference other
 nodes by their **id** (first argument); the special value `"*"` means
 all other nodes. `label` sets the displayed text on sticky/text/shape
-nodes, or the connector label. `font-size` accepts a pixel number or
-one of FigJam's aliases — `"small"` (16), `"medium"` (24), `"large"`
-(40), `"extra-large"` (64), `"huge"` (96).
+nodes, or the connector label. On a connector, `color` is an alternate
+spelling for `stroke` (sets the line color).
+
+Aliases and enums:
+- `font-size` accepts a pixel number or one of FigJam's aliases —
+  `"small"` (16), `"medium"` (24), `"large"` (40), `"extra-large"` (64),
+  `"huge"` (96).
+- `stroke-width` accepts a number or one of `"thin"` (2), `"thick"` (4),
+  matching FigJam's preset line weights.
+- `line-style` accepts `"solid"` (default) or `"dashed"`.
 
 ## Layout sizing
 
