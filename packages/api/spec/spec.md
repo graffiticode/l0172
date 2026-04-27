@@ -56,7 +56,7 @@ semantics and base library can be found here:
 | `height` | `<number record: record>` | Height in board units |
 | `fill` | `<string record: record>` | Fill color (hex string) |
 | `stroke` | `<string record: record>` | Stroke color (hex string) |
-| `stroke-width` | `<number\|tag record: record>` | Stroke width as a number, or one of the tags `thin` (2), `thick` (4) |
+| `stroke-width` | `<number\|tag record: record>` | Stroke width as a number, or one of the tags `thin` (4), `thick` (8) |
 | `opacity` | `<number record: record>` | Opacity on a 0–100 scale (0 = transparent, 100 = opaque) |
 | `label` | `<string record: record>` | Label text (e.g. on a connector) |
 | `color` | `<string record: record>` | Text/foreground color (hex); on a connector, sets the line color |
@@ -300,7 +300,7 @@ square "Box" stroke "#333333" {}
 ### stroke-width
 
 Sets the node's stroke width in board units. Accepts a number or one of
-the tag aliases `thin` (2) or `thick` (4), mirroring FigJam's preset
+the tag aliases `thin` (4) or `thick` (8), mirroring FigJam's preset
 weights.
 
 ```

@@ -112,10 +112,10 @@ describe("L0172 enum tags", () => {
     it("resolves tag aliases", async () => {
       const r1 = await compileSource(board(`connector "" from "A" to "B" stroke-width thin {}`));
       expect(r1.errors).toBeNull();
-      expect(r1.data.nodes[0].strokeWidth).toBe(2);
+      expect(r1.data.nodes[0].strokeWidth).toBe(4);
       const r2 = await compileSource(board(`connector "" from "A" to "B" stroke-width thick {}`));
       expect(r2.errors).toBeNull();
-      expect(r2.data.nodes[0].strokeWidth).toBe(4);
+      expect(r2.data.nodes[0].strokeWidth).toBe(8);
     });
     it("passes numeric values through unchanged", async () => {
       const { errors, data } = await compileSource(board(`connector "" from "A" to "B" stroke-width 5 {}`));

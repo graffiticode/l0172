@@ -40,8 +40,8 @@ const FONT_SIZE_VALUES = {
 };
 
 const STROKE_WIDTH_VALUES = {
-  "thin": 2,
-  "thick": 4,
+  "thin": 4,
+  "thick": 8,
 };
 
 const NODE_PRIMARY_FIELD = {

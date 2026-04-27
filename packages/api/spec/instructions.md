@@ -68,7 +68,7 @@ Tag enums (Checker rejects unknown tags and any string form):
 - `font-size` accepts a pixel number or one of the alias tags —
   `small` (16), `medium` (24), `large` (40), `extra-large` (64),
   `huge` (96).
-- `stroke-width` accepts a number or the tag `thin` (2) or `thick` (4),
+- `stroke-width` accepts a number or the tag `thin` (4) or `thick` (8),
   matching FigJam's preset line weights.
 - `line-style` accepts the tag `solid` (default) or `dashed`.
 - `line-type` accepts the tag `straight` or `elbowed`.

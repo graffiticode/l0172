@@ -25,7 +25,7 @@ Say this to get that:
 - **Stamp** — a reaction marker. `stamp like x N y N {}`. The variant is a tag — one of `like`, `love`, `laugh`, `surprised`, `celebrate`, `heart`.
 - **Id vs label** — the first argument is the id (addressable for connectors); `label "..."` overrides the displayed text. Say "sticky with id 'kickoff' showing 'Kick off'" when the two should differ.
 - **Position and size** — `x`, `y`, `width`, `height`, all numbers. Always set `x` and `y` on every node; defaults otherwise stack at origin.
-- **Styling** — `fill` (hex color), `stroke` (hex color), `stroke-width` (number, or tag `thin`/`thick`), `opacity` (0–100 scale; 50 = half transparent), `color` (text color). Apply per-node. Connector-only style tags: `line-type` (`straight`/`elbowed`), `line-style` (`solid`/`dashed`), `from-cap`/`to-cap` (`none`/`arrow-lines`/`arrow-equilateral`/`triangle-filled`/`circle-filled`/`diamond-filled`), `from-side`/`to-side` (`auto`/`top`/`bottom`/`left`/`right`/`center`).
+- **Styling** — `fill` (hex color), `stroke` (hex color), `stroke-width` (number, or tag `thin` (4) / `thick` (8)), `opacity` (0–100 scale; 50 = half transparent), `color` (text color). Apply per-node. Connector-only style tags: `line-type` (`straight`/`elbowed`), `line-style` (`solid`/`dashed`), `from-cap`/`to-cap` (`none`/`arrow-lines`/`arrow-equilateral`/`triangle-filled`/`circle-filled`/`diamond-filled`), `from-side`/`to-side` (`auto`/`top`/`bottom`/`left`/`right`/`center`).
 - **Layout discipline** — "lay these out on a 300×300 grid" or "space stickies 280 units apart" triggers the translator to space things so they don't collide.
 
 ## Example Prompts
