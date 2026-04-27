@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
-const fn1 = (name) => ({ tk: 1, name, cls: "function", length: 1, arity: 1 });
 const fn2 = (name) => ({ tk: 1, name, cls: "function", length: 2, arity: 2 });
+const tag = () => ({ tk: 22, name: "TAG", cls: "val", length: 0, arity: 0 });
 
 // Surface names mirror Figma's ShapeWithTextNode.shapeType enum (lower
 // kebab-case ↔ SCREAMING_SNAKE_CASE). Only shapes Figma actually renders
@@ -51,6 +51,24 @@ const PROP_SETTERS = [
   "from-side", "to-side",
 ];
 
+// Tag enums per property. Each value is a closed set; the Checker rejects
+// unknown tags. font-size and stroke-width also accept numeric values.
+// Stamp catalog is a curated subset of Figma's FigJam StampNode variants;
+// extend as Figma adds new ones.
+const ENUM_TAGS = {
+  lineType:    ["straight", "elbowed"],
+  lineStyle:   ["solid", "dashed"],
+  fromCap:     ["none", "arrow-lines", "arrow-equilateral", "triangle-filled", "circle-filled", "diamond-filled"],
+  toCap:       ["none", "arrow-lines", "arrow-equilateral", "triangle-filled", "circle-filled", "diamond-filled"],
+  fromSide:    ["auto", "top", "bottom", "left", "right", "center"],
+  toSide:      ["auto", "top", "bottom", "left", "right", "center"],
+  fontSize:    ["small", "medium", "large", "extra-large", "huge"],
+  strokeWidth: ["thin", "thick"],
+  stamp:       ["like", "love", "laugh", "surprised", "celebrate", "heart"],
+};
+
+const ALL_ENUM_TAGS = new Set(Object.values(ENUM_TAGS).flat());
+
 const toMethodName = (surface) => surface.replace(/-/g, "_").toUpperCase();
 
 export const lexicon = {
@@ -59,7 +77,9 @@ export const lexicon = {
   ...Object.fromEntries(NODE_TYPES.map((n) => [n, fn2(toMethodName(n))])),
   ...Object.fromEntries(Object.keys(SHAPE_TYPES).map((n) => [n, fn2(toMethodName(n))])),
   ...Object.fromEntries(PROP_SETTERS.map((n) => [n, fn2(toMethodName(n))])),
+  ...Object.fromEntries([...ALL_ENUM_TAGS].map((t) => [t, tag()])),
 };
 
 export const SHAPE_TYPE_ENUM = SHAPE_TYPES;
 export const NODE_TYPE_NAMES = NODE_TYPES;
+export const ENUM_TAG_VALUES = ENUM_TAGS;

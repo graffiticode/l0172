@@ -72,9 +72,9 @@
 47. Create a board with an octagon shape filled with "#ff1493".
 48. Create a board with a gold star labeled "Success".
 49. Create a board with three stars in a row representing a rating.
-50. Create a board with a "like" stamp at x 100 y 100.
-51. Create a board with stamps "like", "love", and "celebrate" in a row.
-52. Create a board with a sticky note and a "heart" stamp next to it.
+50. Create a board with a like stamp at x 100 y 100.
+51. Create a board with stamps like, love, and celebrate in a row.
+52. Create a board with a sticky note and a heart stamp next to it.
 
 ## Category 8: Position and Size (53–60)
 
@@ -143,14 +143,14 @@
 97. Create a brainstorm board with a central sticky "Idea" and six sticky notes arranged around it connected with unlabeled connectors using a wildcard.
 98. Create a roadmap board with three sections "Q1", "Q2", "Q3", each containing two sticky milestones, with arrows connecting milestones across quarters.
 99. Create a retrospective board with three sections "Went Well", "To Improve", "Action Items", each filled with pastel colors and containing three sticky notes styled with different fills.
-100. Create a fully featured board with a title text, a section "System", containing styled flowchart shapes (rounded-rectangle, predefined-process, diamond, rounded-rectangle) connected with labeled "yes"/"no" connectors, a stamp "like" for approval, and a side section "Notes" with yellow sticky notes.
+100. Create a fully featured board with a title text, a section "System", containing styled flowchart shapes (rounded-rectangle, predefined-process, diamond, rounded-rectangle) connected with labeled "yes"/"no" connectors, a stamp like for approval, and a side section "Notes" with yellow sticky notes.
 
 ## Category 15: Connectors — Line Types, Caps, and Styles (101–113)
 
 101. Create a board with two sticky notes connected by an elbowed connector.
 102. Create a board with two ellipses connected by a straight connector labeled "flows to".
 103. Create a board with a bidirectional connector between two stickies "Client" and "Server" using arrow-lines caps on both ends.
-104. Create a board with a connector from "A" to "B" with no arrow on either end (from-cap "none", to-cap "none").
+104. Create a board with a connector from "A" to "B" with no arrow on either end (from-cap none, to-cap none).
 105. Create a board with a connector from "Source" to "Sink" using a triangle-filled to-cap.
 106. Create a board with a connector from "A" to "B" using an arrow-equilateral to-cap and elbowed routing.
 107. Create a board with three stickies connected in a cycle by bidirectional connectors.
@@ -159,7 +159,7 @@
 110. Create a flowchart using elbowed connectors between a rounded-rectangle "Start", a diamond "Valid?", and two rounded-rectangle outcomes, each with triangle-filled to-caps.
 111. Create a board with two sticky notes connected by a dashed connector labeled "next".
 112. Create a board with two ellipses "Plan" and "Ship" linked by a thick, red, dashed elbowed connector.
-113. Create a board with a thin connector from "Source" to "Sink" using stroke-width "thin" and a triangle-filled to-cap.
+113. Create a board with a thin connector from "Source" to "Sink" using stroke-width thin and a triangle-filled to-cap.
 
 ## Category 16: Ids and Labels (114–123)
 

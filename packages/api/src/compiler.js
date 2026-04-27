@@ -5,7 +5,7 @@ import {
   Transformer as BasisTransformer,
   Compiler as BasisCompiler
 } from '@graffiticode/basis';
-import { SHAPE_TYPE_ENUM, NODE_TYPE_NAMES } from './lexicon.js';
+import { SHAPE_TYPE_ENUM, NODE_TYPE_NAMES, ENUM_TAG_VALUES } from './lexicon.js';
 
 const toMethodName = (surface) => surface.replace(/-/g, "_").toUpperCase();
 
@@ -31,7 +31,7 @@ const PROP_SETTERS = {
   TO_SIDE: "toSide",
 };
 
-const FONT_SIZE_ALIASES = {
+const FONT_SIZE_VALUES = {
   "small": 16,
   "medium": 24,
   "large": 40,
@@ -39,12 +39,10 @@ const FONT_SIZE_ALIASES = {
   "huge": 96,
 };
 
-const STROKE_WIDTH_ALIASES = {
+const STROKE_WIDTH_VALUES = {
   "thin": 2,
   "thick": 4,
 };
-
-const LINE_STYLES = new Set(["solid", "dashed"]);
 
 const NODE_PRIMARY_FIELD = {
   sticky: "text",
@@ -66,17 +64,40 @@ function parseFileKey(input) {
 }
 
 function visitArity2(node, options, resume) {
-  this.visit(node.elts[0], options, () => {
-    this.visit(node.elts[1], options, () => {
-      resume([], node);
+  this.visit(node.elts[0], options, (e0) => {
+    this.visit(node.elts[1], options, (e1) => {
+      resume([...(e0 || []), ...(e1 || [])], node);
     });
   });
 }
 
-function visitArity1(node, options, resume) {
-  this.visit(node.elts[0], options, () => {
-    resume([], node);
-  });
+function formatTagList(tags) {
+  return tags.map((t) => `\`${t}\``).join(", ");
+}
+
+function describeValue(v) {
+  if (typeof v === "number") return `number ${v}`;
+  if (typeof v === "string") return `"${v}"`;
+  if (!v || typeof v !== "object") return String(v);
+  if (v.tag === "STR") return `string "${v.elts[0]}"`;
+  if (v.tag === "TAG") return `tag \`${v.elts[0]}\``;
+  if (v.tag === "NUM") return `number ${v.elts[0]}`;
+  return v.tag;
+}
+
+function checkTagOnly(v0, allowed, propName) {
+  if (v0 && v0.tag === "TAG" && allowed.includes(v0.elts[0])) {
+    return [];
+  }
+  const valid = formatTagList(allowed);
+  return [`Invalid ${propName} value ${describeValue(v0)}. Expected a tag: ${valid}.`];
+}
+
+function checkTagOrNumber(v0, allowed, propName) {
+  if (typeof v0 === "number") return [];
+  if (v0 && v0.tag === "TAG" && allowed.includes(v0.elts[0])) return [];
+  const valid = formatTagList(allowed);
+  return [`Invalid ${propName} value ${describeValue(v0)}. Expected a number or one of the tags: ${valid}.`];
 }
 
 export class Checker extends BasisChecker {
@@ -126,7 +147,9 @@ export class Transformer extends BasisTransformer {
   }
 }
 
-// Generate per-prop setter methods (arity 2).
+// Generate per-prop setter methods (arity 2). Enum properties below
+// override these with tag-validating Checkers and tag-extracting
+// Transformers.
 for (const [method, field] of Object.entries(PROP_SETTERS)) {
   Checker.prototype[method] = function (node, options, resume) {
     visitArity2.call(this, node, options, resume);
@@ -140,14 +163,43 @@ for (const [method, field] of Object.entries(PROP_SETTERS)) {
   };
 }
 
+// Tag-only enum prop setters: line-type, line-style, from-cap, to-cap,
+// from-side, to-side. Checker validates; Transformer extracts v0.tag so
+// the compiled record carries a plain string (FigJam consumer unchanged).
+const TAG_ONLY_PROP_SETTERS = {
+  LINE_TYPE:  { field: "lineType",  surface: "line-type",  allowed: ENUM_TAG_VALUES.lineType  },
+  LINE_STYLE: { field: "lineStyle", surface: "line-style", allowed: ENUM_TAG_VALUES.lineStyle },
+  FROM_CAP:   { field: "fromCap",   surface: "from-cap",   allowed: ENUM_TAG_VALUES.fromCap   },
+  TO_CAP:     { field: "toCap",     surface: "to-cap",     allowed: ENUM_TAG_VALUES.toCap     },
+  FROM_SIDE:  { field: "fromSide",  surface: "from-side",  allowed: ENUM_TAG_VALUES.fromSide  },
+  TO_SIDE:    { field: "toSide",    surface: "to-side",    allowed: ENUM_TAG_VALUES.toSide    },
+};
+
+for (const [method, { field, surface, allowed }] of Object.entries(TAG_ONLY_PROP_SETTERS)) {
+  Checker.prototype[method] = function (node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1) => {
+        const err = [...e0, ...e1, ...checkTagOnly(v0, allowed, surface)];
+        resume(err, node);
+      });
+    });
+  };
+  Transformer.prototype[method] = function (node, options, resume) {
+    this.visit(node.elts[0], options, (e0, v0) => {
+      this.visit(node.elts[1], options, (e1, v1) => {
+        const value = v0 && v0.tag ? v0.tag : v0;
+        resume([], { ...v1, [field]: value });
+      });
+    });
+  };
+}
+
+// Tag-or-number setters: font-size, stroke-width. Tag values resolve to
+// the corresponding pixel number.
 Checker.prototype.FONT_SIZE = function (node, options, resume) {
   this.visit(node.elts[0], options, (e0, v0) => {
-    this.visit(node.elts[1], options, (e1, v1) => {
-      let err = [...e0, ...e1];
-      if (v0 && v0.tag === "STR" && !(v0.elts[0] in FONT_SIZE_ALIASES)) {
-        const valid = Object.keys(FONT_SIZE_ALIASES).map((k) => `"${k}"`).join(", ");
-        err = [...err, `Invalid font-size alias "${v0.elts[0]}". Expected ${valid}, or a number.`];
-      }
+    this.visit(node.elts[1], options, (e1) => {
+      const err = [...e0, ...e1, ...checkTagOrNumber(v0, ENUM_TAG_VALUES.fontSize, "font-size")];
       resume(err, node);
     });
   });
@@ -156,8 +208,8 @@ Checker.prototype.FONT_SIZE = function (node, options, resume) {
 Transformer.prototype.FONT_SIZE = function (node, options, resume) {
   this.visit(node.elts[0], options, (e0, v0) => {
     this.visit(node.elts[1], options, (e1, v1) => {
-      const resolved = typeof v0 === "string" && v0 in FONT_SIZE_ALIASES
-        ? FONT_SIZE_ALIASES[v0]
+      const resolved = v0 && v0.tag && v0.tag in FONT_SIZE_VALUES
+        ? FONT_SIZE_VALUES[v0.tag]
         : v0;
       resume([], { ...v1, fontSize: resolved });
     });
@@ -166,12 +218,8 @@ Transformer.prototype.FONT_SIZE = function (node, options, resume) {
 
 Checker.prototype.STROKE_WIDTH = function (node, options, resume) {
   this.visit(node.elts[0], options, (e0, v0) => {
-    this.visit(node.elts[1], options, (e1, v1) => {
-      let err = [...e0, ...e1];
-      if (v0 && v0.tag === "STR" && !(v0.elts[0] in STROKE_WIDTH_ALIASES)) {
-        const valid = Object.keys(STROKE_WIDTH_ALIASES).map((k) => `"${k}"`).join(", ");
-        err = [...err, `Invalid stroke-width alias "${v0.elts[0]}". Expected ${valid}, or a number.`];
-      }
+    this.visit(node.elts[1], options, (e1) => {
+      const err = [...e0, ...e1, ...checkTagOrNumber(v0, ENUM_TAG_VALUES.strokeWidth, "stroke-width")];
       resume(err, node);
     });
   });
@@ -180,23 +228,10 @@ Checker.prototype.STROKE_WIDTH = function (node, options, resume) {
 Transformer.prototype.STROKE_WIDTH = function (node, options, resume) {
   this.visit(node.elts[0], options, (e0, v0) => {
     this.visit(node.elts[1], options, (e1, v1) => {
-      const resolved = typeof v0 === "string" && v0 in STROKE_WIDTH_ALIASES
-        ? STROKE_WIDTH_ALIASES[v0]
+      const resolved = v0 && v0.tag && v0.tag in STROKE_WIDTH_VALUES
+        ? STROKE_WIDTH_VALUES[v0.tag]
         : v0;
       resume([], { ...v1, strokeWidth: resolved });
-    });
-  });
-};
-
-Checker.prototype.LINE_STYLE = function (node, options, resume) {
-  this.visit(node.elts[0], options, (e0, v0) => {
-    this.visit(node.elts[1], options, (e1, v1) => {
-      let err = [...e0, ...e1];
-      if (v0 && v0.tag === "STR" && !LINE_STYLES.has(v0.elts[0])) {
-        const valid = [...LINE_STYLES].map((k) => `"${k}"`).join(", ");
-        err = [...err, `Invalid line-style "${v0.elts[0]}". Expected ${valid}.`];
-      }
-      resume(err, node);
     });
   });
 };
@@ -205,6 +240,26 @@ Checker.prototype.LINE_STYLE = function (node, options, resume) {
 for (const surface of NODE_TYPE_NAMES) {
   const method = toMethodName(surface);
   const field = NODE_PRIMARY_FIELD[surface];
+  if (surface === "stamp") {
+    Checker.prototype[method] = function (node, options, resume) {
+      this.visit(node.elts[0], options, (e0, v0) => {
+        this.visit(node.elts[1], options, (e1) => {
+          const err = [...e0, ...e1, ...checkTagOnly(v0, ENUM_TAG_VALUES.stamp, "stamp")];
+          resume(err, node);
+        });
+      });
+    };
+    Transformer.prototype[method] = function (node, options, resume) {
+      this.visit(node.elts[0], options, (e0, v0) => {
+        this.visit(node.elts[1], options, (e1, v1) => {
+          const variant = v0 && v0.tag ? v0.tag : v0;
+          const primary = v1[field] !== undefined ? v1[field] : variant;
+          resume([], { ...v1, type: surface, [field]: primary });
+        });
+      });
+    };
+    continue;
+  }
   Checker.prototype[method] = function (node, options, resume) {
     visitArity2.call(this, node, options, resume);
   };

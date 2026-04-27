@@ -21,7 +21,7 @@ All have type `<string record: record>`.
   the default displayed text. Use `label "..."` to override the display
   text while keeping the id.
 - `section`: first arg is the section's name.
-- `stamp`: first arg is the reaction variant (`"like"`, `"love"`, …).
+- `stamp`: first arg is the reaction variant as a tag — one of `like`, `love`, `laugh`, `surprised`, `celebrate`, `heart`.
 - `connector`: first arg is the connector's label. `label "..."`
   overrides it.
 
@@ -53,23 +53,33 @@ Attach a field to the wrapped record.
 | Function | Type |
 | :------- | :--- |
 | `x`, `y`, `width`, `height`, `opacity` | `<number record: record>` |
-| `fill`, `stroke`, `label`, `color`, `from`, `to`, `line-style` | `<string record: record>` |
-| `font-size`, `stroke-width` | `<number\|string record: record>` |
+| `fill`, `stroke`, `label`, `color`, `from`, `to` | `<string record: record>` |
+| `line-type`, `line-style`, `from-cap`, `to-cap`, `from-side`, `to-side` | `<tag record: record>` |
+| `font-size`, `stroke-width` | `<number\|tag record: record>` |
 
 `opacity` is on a 0–100 scale: `0` fully transparent, `100` fully opaque
 (e.g. `opacity 50` is half-transparent). `from`/`to` reference other
-nodes by their **id** (first argument); the special value `"*"` means
-all other nodes. `label` sets the displayed text on sticky/text/shape
-nodes, or the connector label. On a connector, `color` is an alternate
-spelling for `stroke` (sets the line color).
+nodes by their **id** (first argument); the special wildcard string
+`"*"` means all other nodes. `label` sets the displayed text on
+sticky/text/shape nodes, or the connector label. On a connector,
+`color` is an alternate spelling for `stroke` (sets the line color).
 
-Aliases and enums:
-- `font-size` accepts a pixel number or one of FigJam's aliases —
-  `"small"` (16), `"medium"` (24), `"large"` (40), `"extra-large"` (64),
-  `"huge"` (96).
-- `stroke-width` accepts a number or one of `"thin"` (2), `"thick"` (4),
+Tag enums (Checker rejects unknown tags and any string form):
+- `font-size` accepts a pixel number or one of the alias tags —
+  `small` (16), `medium` (24), `large` (40), `extra-large` (64),
+  `huge` (96).
+- `stroke-width` accepts a number or the tag `thin` (2) or `thick` (4),
   matching FigJam's preset line weights.
-- `line-style` accepts `"solid"` (default) or `"dashed"`.
+- `line-style` accepts the tag `solid` (default) or `dashed`.
+- `line-type` accepts the tag `straight` or `elbowed`.
+- `from-cap` and `to-cap` accept `none`, `arrow-lines`,
+  `arrow-equilateral`, `triangle-filled`, `circle-filled`, or
+  `diamond-filled`. Default is `none` on the from end and an arrow on
+  the to end.
+- `from-side` and `to-side` accept `auto`, `top`, `bottom`, `left`,
+  `right`, or `center`. Default is `auto`.
+- `stamp` (node type) takes its variant as a tag — `like`, `love`,
+  `laugh`, `surprised`, `celebrate`, or `heart`.
 
 ## Layout sizing
 

@@ -18,14 +18,14 @@ Say this to get that:
 - **Board** — `board "FILE_KEY"` or `board "https://www.figma.com/board/FILE_KEY/..."`. The root of every program. "Target FigJam file ABC123" / "render these onto this Figma board URL".
 - **Nodes** — the flat list of items attached to the board or nested in a section. Always wrap node lists in `nodes [...]`.
 - **Sticky** — a sticky note. `sticky "id" x N y N label "displayed text" fill "#ffcc00" {}`. Default size ~240×240; space stickies by at least 260 units to avoid overlap.
-- **Text** — a free-standing text node. `text "id" x N y N {}`. Use `font-size` with a number or alias (`"small"` 16, `"medium"` 24, `"large"` 40, `"extra-large"` 64, `"huge"` 96).
+- **Text** — a free-standing text node. `text "id" x N y N {}`. Use `font-size` with a number or one of the tag aliases — `small` (16), `medium` (24), `large` (40), `extra-large` (64), `huge` (96).
 - **Shape** — one of the 25+ named shapes: `ellipse`, `square`, `rounded-rectangle`, `diamond`, `triangle-up`, `triangle-down`, `hexagon`, `pentagon`, `octagon`, `star`, `plus`, `chevron`, `arrow-left`, `arrow-right`, `parallelogram-right`, `parallelogram-left`, `trapezoid`, `speech-bubble`, `summing-junction`, `or`, `internal-storage`, `predefined-process`, `manual-input`, `document-single`, `document-multiple`, `shield`, `eng-database`, `eng-queue`, `eng-file`, `eng-folder`. Shapes default to roughly 200×120; set explicit `width`/`height` when packing several.
 - **Connector** — a labeled edge between two nodes. `connector "label text" from "source-id" to "target-id" {}`. `from "*"` means all other nodes (fan-out); `to "*"` means fan-in.
 - **Section** — a group container with a title bar. `section "Phase 1" nodes [ ... ] {}`. Size a section so `width >= (rightmost child x + child width + 40)` and `height >= (bottommost child y + child height + 80)`; the title bar needs ~60 units at the top.
-- **Stamp** — a reaction marker. `stamp "like" x N y N {}`. Variants: `"like"`, `"love"`, `"laugh"`, `"surprised"`, etc.
+- **Stamp** — a reaction marker. `stamp like x N y N {}`. The variant is a tag — one of `like`, `love`, `laugh`, `surprised`, `celebrate`, `heart`.
 - **Id vs label** — the first argument is the id (addressable for connectors); `label "..."` overrides the displayed text. Say "sticky with id 'kickoff' showing 'Kick off'" when the two should differ.
 - **Position and size** — `x`, `y`, `width`, `height`, all numbers. Always set `x` and `y` on every node; defaults otherwise stack at origin.
-- **Styling** — `fill` (hex color), `stroke` (hex color), `stroke-width` (number), `opacity` (0–100 scale; 50 = half transparent), `color` (text color). Apply per-node.
+- **Styling** — `fill` (hex color), `stroke` (hex color), `stroke-width` (number, or tag `thin`/`thick`), `opacity` (0–100 scale; 50 = half transparent), `color` (text color). Apply per-node. Connector-only style tags: `line-type` (`straight`/`elbowed`), `line-style` (`solid`/`dashed`), `from-cap`/`to-cap` (`none`/`arrow-lines`/`arrow-equilateral`/`triangle-filled`/`circle-filled`/`diamond-filled`), `from-side`/`to-side` (`auto`/`top`/`bottom`/`left`/`right`/`center`).
 - **Layout discipline** — "lay these out on a 300×300 grid" or "space stickies 280 units apart" triggers the translator to space things so they don't collide.
 
 ## Example Prompts

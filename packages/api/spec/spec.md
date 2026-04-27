@@ -19,7 +19,7 @@ semantics and base library can be found here:
 | `text` | `<string record: record>` | A free-floating text node |
 | `connector` | `<string record: record>` | A line/arrow between nodes |
 | `section` | `<string record: record>` | A section container grouping nodes |
-| `stamp` | `<string record: record>` | A FigJam stamp/reaction |
+| `stamp` | `<tag record: record>` | A FigJam stamp/reaction |
 | `square` | `<string record: record>` | Square / rectangle shape |
 | `ellipse` | `<string record: record>` | Ellipse / oval shape |
 | `rounded-rectangle` | `<string record: record>` | Rectangle with rounded corners |
@@ -56,18 +56,18 @@ semantics and base library can be found here:
 | `height` | `<number record: record>` | Height in board units |
 | `fill` | `<string record: record>` | Fill color (hex string) |
 | `stroke` | `<string record: record>` | Stroke color (hex string) |
-| `stroke-width` | `<number\|string record: record>` | Stroke width as a number, or one of `"thin"` (2), `"thick"` (4) |
+| `stroke-width` | `<number\|tag record: record>` | Stroke width as a number, or one of the tags `thin` (2), `thick` (4) |
 | `opacity` | `<number record: record>` | Opacity on a 0–100 scale (0 = transparent, 100 = opaque) |
 | `label` | `<string record: record>` | Label text (e.g. on a connector) |
 | `color` | `<string record: record>` | Text/foreground color (hex); on a connector, sets the line color |
 | `from` | `<string\|list record: record>` | Source node(s) for a connector |
 | `to` | `<string\|list record: record>` | Target node(s) for a connector |
-| `line-type` | `<string record: record>` | Connector routing: `"straight"` or `"elbowed"` |
-| `line-style` | `<string record: record>` | Connector line style: `"solid"` or `"dashed"` |
-| `from-cap` | `<string record: record>` | Stroke cap at the `from` end of a connector |
-| `to-cap` | `<string record: record>` | Stroke cap at the `to` end of a connector |
-| `from-side` | `<string record: record>` | Side of the `from` node the connector attaches to |
-| `to-side` | `<string record: record>` | Side of the `to` node the connector attaches to |
+| `line-type` | `<tag record: record>` | Connector routing: `straight` or `elbowed` |
+| `line-style` | `<tag record: record>` | Connector line style: `solid` or `dashed` |
+| `from-cap` | `<tag record: record>` | Stroke cap at the `from` end of a connector |
+| `to-cap` | `<tag record: record>` | Stroke cap at the `to` end of a connector |
+| `from-side` | `<tag record: record>` | Side of the `from` node the connector attaches to |
+| `to-side` | `<tag record: record>` | Side of the `to` node the connector attaches to |
 
 All functions in this dialect are arity 2, take their property record as
 the final argument, and return a record. Use `{}` as a terminating empty
@@ -215,10 +215,12 @@ section by their primary string — the name lookup is global.
 
 ### stamp
 
-A FigJam stamp/reaction. The first argument identifies the stamp variant.
+A FigJam stamp/reaction. The first argument identifies the stamp variant
+as a tag — one of `like`, `love`, `laugh`, `surprised`, `celebrate`,
+`heart`.
 
 ```
-stamp "like" x 100 y 100 {}
+stamp like x 100 y 100 {}
 ```
 
 ### Shape functions
@@ -298,12 +300,12 @@ square "Box" stroke "#333333" {}
 ### stroke-width
 
 Sets the node's stroke width in board units. Accepts a number or one of
-the aliases `"thin"` (2) or `"thick"` (4), mirroring FigJam's preset
+the tag aliases `thin` (2) or `thick` (4), mirroring FigJam's preset
 weights.
 
 ```
 square "Box" stroke "#333333" stroke-width 2 {}
-connector "" from "A" to "B" stroke-width "thick" {}
+connector "" from "A" to "B" stroke-width thick {}
 ```
 
 ### opacity
@@ -368,51 +370,51 @@ to "*"
 
 ### line-type
 
-Sets the connector's routing style. Values: `"straight"` or `"elbowed"`.
-Maps to Figma's `connectorLineType`.
+Sets the connector's routing style. Values are tags: `straight` or
+`elbowed`. Maps to Figma's `connectorLineType`.
 
 ```
-connector "" from "A" to "B" line-type "elbowed" {}
+connector "" from "A" to "B" line-type elbowed {}
 ```
 
 ### line-style
 
-Sets the connector's line style. Values: `"solid"` (default) or
-`"dashed"`. Arrowhead caps remain solid even when the line is dashed —
+Sets the connector's line style. Values are tags: `solid` (default) or
+`dashed`. Arrowhead caps remain solid even when the line is dashed —
 this matches Figma's rendering.
 
 ```
-connector "" from "A" to "B" line-style "dashed" {}
+connector "" from "A" to "B" line-style dashed {}
 ```
 
 ### from-cap / to-cap
 
 Sets the stroke cap at the `from` or `to` end of a connector. Values
-are the lower-kebab-case form of Figma's `ConnectorStrokeCap` enum:
-`"none"`, `"arrow-lines"`, `"arrow-equilateral"`, `"triangle-filled"`,
-`"circle-filled"`, `"diamond-filled"`. Default is `none` on the from
-end and an arrow on the to end. Set both to an arrow for a
-bidirectional connector.
+are tags — the lower-kebab-case form of Figma's `ConnectorStrokeCap`
+enum: `none`, `arrow-lines`, `arrow-equilateral`, `triangle-filled`,
+`circle-filled`, `diamond-filled`. Default is `none` on the from end
+and an arrow on the to end. Set both to an arrow for a bidirectional
+connector.
 
 ```
-connector "syncs" from "A" to "B" from-cap "arrow-lines" to-cap "arrow-lines" {}
+connector "syncs" from "A" to "B" from-cap arrow-lines to-cap arrow-lines {}
 ```
 
 ### from-side / to-side
 
 Sets which side of the `from` or `to` node the connector attaches to.
-Values are the lower-kebab-case form of Figma's `ConnectorMagnet` enum:
-`"auto"`, `"top"`, `"bottom"`, `"left"`, `"right"`, `"center"`. Default
-is `"auto"`, which picks a side based on the relative positions of the
-two nodes.
+Values are tags — the lower-kebab-case form of Figma's
+`ConnectorMagnet` enum: `auto`, `top`, `bottom`, `left`, `right`,
+`center`. Default is `auto`, which picks a side based on the relative
+positions of the two nodes.
 
 Because `auto` considers only node positions (not other connectors),
 two connectors between the same pair of nodes will stack on top of
 each other. Set explicit sides to separate them:
 
 ```
-connector "primary"   from "A" to "B" from-side "right"  to-side "left" {}
-connector "secondary" from "A" to "B" from-side "bottom" to-side "top"  {}
+connector "primary"   from "A" to "B" from-side right  to-side left {}
+connector "secondary" from "A" to "B" from-side bottom to-side top  {}
 ```
 
 ## Program Example
