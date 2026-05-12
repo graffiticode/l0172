@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: CC-BY-4.0 -->
-# L0172 User Guide
+# L0172 Usage Guide
 
 Agent-facing guide for authoring FigJam board content through L0172. Read this before composing a `create_item` prompt or an `update_item` modification.
 
