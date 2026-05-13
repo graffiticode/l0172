@@ -1,0 +1,20 @@
+{
+  "id": "0172",
+  "summary": "Authors FigJam board content — emits a node list (sticky notes, text, shapes, sections, connectors, stamps) that the renderer draws onto a target FigJam board.",
+  "in_scope": [
+    "Sticky notes and text nodes",
+    "Shape nodes (ellipse, rounded rectangle, diamond, hexagon, pentagon, star, arrow, chevron, flowchart shapes)",
+    "Section nodes that group other nodes",
+    "Connector edges between nodes, optionally labeled",
+    "Stamp / reaction nodes",
+    "Explicit coordinate-based layout"
+  ],
+  "out_of_scope": [
+    "Figma design-file authoring (frames, components, variants) — use the Figma MCP for design-file work",
+    "Auto-layout — renderer takes coordinates literally; plan positions explicitly",
+    "Board-level settings (viewport, zoom, grid, theme)",
+    "Realtime collaboration state (cursors, presence)",
+    "Comments and threads",
+    "Host-app embedding or sync to FigJam — handled by the renderer"
+  ]
+}
