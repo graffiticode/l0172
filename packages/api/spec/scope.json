@@ -10,6 +10,7 @@
     "Explicit coordinate-based layout"
   ],
   "out_of_scope": [
+    "Any board or canvas surface that isn't FigJam (Figma design files, Miro boards, Mural, Whimsical, Lucidspark, Excalidraw, plain HTML canvases)",
     "Figma design-file authoring (frames, components, variants) — use the Figma MCP for design-file work",
     "Auto-layout — renderer takes coordinates literally; plan positions explicitly",
     "Board-level settings (viewport, zoom, grid, theme)",
