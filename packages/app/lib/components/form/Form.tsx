@@ -49,8 +49,8 @@ function render({ state }) {
 export const Form = ({ state }) => {
   return (
     <div className="rounded-md font-mono flex flex-col gap-4 p-4 bg-white text-zinc-900">
-      {Array.isArray(state.data.errors) && state.data.errors.length > 0
-        ? renderErrors(state.data.errors)
+      {Array.isArray(state.errors) && state.errors.length > 0
+        ? renderErrors(state.errors)
         : render({state})}
     </div>
   );
