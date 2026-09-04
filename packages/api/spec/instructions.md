@@ -21,7 +21,9 @@ All have type `<string record: record>`.
   the default displayed text. Use `label "..."` to override the display
   text while keeping the id.
 - `section`: first arg is the section's name.
-- `stamp`: first arg is the reaction variant as a tag — one of `like`, `love`, `laugh`, `surprised`, `celebrate`, `heart`.
+- `stamp`: first arg is the reaction variant, written bare — `stamp like`,
+  never `stamp "like"` and never `stamp tag like`. One of `like`, `love`,
+  `laugh`, `surprised`, `celebrate`, `heart`. See Tag enums below.
 - `connector`: first arg is the connector's label. `label "..."`
   overrides it.
 
@@ -64,22 +66,62 @@ nodes by their **id** (first argument); the special wildcard string
 sticky/text/shape nodes, or the connector label. On a connector,
 `color` is an alternate spelling for `stroke` (sets the line color).
 
-Tag enums (Checker rejects unknown tags and any string form):
-- `font-size` accepts a pixel number or one of the alias tags —
-  `small` (16), `medium` (24), `large` (40), `extra-large` (64),
-  `huge` (96).
-- `stroke-width` accepts a number or the tag `thin` (4) or `thick` (8),
-  matching FigJam's preset line weights.
-- `line-style` accepts the tag `solid` (default) or `dashed`.
-- `line-type` accepts the tag `straight` or `elbowed`.
-- `from-cap` and `to-cap` accept `none`, `arrow-lines`,
-  `arrow-equilateral`, `triangle-filled`, `circle-filled`, or
-  `diamond-filled`. Default is `none` on the from end and an arrow on
-  the to end.
-- `from-side` and `to-side` accept `auto`, `top`, `bottom`, `left`,
-  `right`, or `center`. Default is `auto`.
-- `stamp` (node type) takes its variant as a tag — `like`, `love`,
-  `laugh`, `surprised`, `celebrate`, or `heart`.
+Tag enums. Write the value as a **bare word**: no quotes, and no `tag`
+keyword. The names below are already tags in this dialect's lexicon, so
+the `tag` constructor shown in the Tags section above is for binding your
+own constants (`let red = tag red..`) and must NOT be repeated here — the
+parser rejects `line-type tag elbowed` outright. The Checker rejects the
+string form too, so all three of these are errors:
+
+```
+line-type "elbowed"      /* string — rejected */
+line-type tag elbowed    /* tag keyword — parse error */
+stamp "like"             /* string — rejected */
+```
+
+Write them like this:
+
+```
+board "ABC123"
+  nodes [
+    sticky "A"
+      x 0
+      y 0 {}
+    sticky "B"
+      x 400
+      y 0 {}
+    stamp like
+      x 200
+      y 300 {}
+    connector "syncs"
+      from "A"
+      to "B"
+      line-type elbowed
+      line-style dashed
+      from-cap none
+      to-cap arrow-lines
+      from-side right
+      to-side left
+      stroke-width thick {}
+  ] {
+    v: 2
+  }..
+```
+
+The complete set of accepted bare words:
+- `font-size`: a pixel number, or `small` (16), `medium` (24),
+  `large` (40), `extra-large` (64), `huge` (96).
+- `stroke-width`: a number, or `thin` (4) or `thick` (8), matching
+  FigJam's preset line weights.
+- `line-style`: `solid` (default) or `dashed`.
+- `line-type`: `straight` or `elbowed`.
+- `from-cap`, `to-cap`: `none`, `arrow-lines`, `arrow-equilateral`,
+  `triangle-filled`, `circle-filled`, `diamond-filled`. Default is
+  `none` on the from end and an arrow on the to end.
+- `from-side`, `to-side`: `auto`, `top`, `bottom`, `left`, `right`,
+  `center`. Default is `auto`.
+- `stamp` (node type, first argument): `like`, `love`, `laugh`,
+  `surprised`, `celebrate`, `heart`.
 
 ## Layout sizing
 
